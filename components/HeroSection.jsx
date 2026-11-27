@@ -12,7 +12,7 @@ export default function HeroSection({ onOpenBooking }) {
   return (
     <section
       id="hero"
-      className="relative bg-slate-100 overflow-hidden flex items-center min-h-[560px] lg:h-[calc(100vh-112px)] lg:max-h-[720px]"
+      className="relative bg-slate-100 overflow-hidden flex items-center min-h-[580px] lg:h-[calc(100vh-100px)] lg:max-h-[740px] pb-6 sm:pb-8 lg:pb-10"
     >
       {/* 1. Full Background Image Layer - Disimpan langsung di div paling atas background tanpa scale bertingkat agar top tidak terpotong */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
@@ -35,7 +35,7 @@ export default function HeroSection({ onOpenBooking }) {
       </div>
 
       {/* 3. Hero Content Container - Kolom tulisan dilebarkan sedikit ke kanan */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 py-10 lg:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pt-10 pb-14 lg:pt-16 lg:pb-20">
         <div className="max-w-3xl lg:max-w-[740px] space-y-5 text-center lg:text-left">
 
           {/* Header Line Model (Tanpa badge & tanpa icon) */}

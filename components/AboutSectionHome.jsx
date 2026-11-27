@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 
 export default function AboutSectionHome() {
   return (
-    <section id="tentang" className="relative bg-slate-100 overflow-hidden py-20 sm:py-24 lg:py-28">
+    <section id="tentang" className="relative bg-slate-100 overflow-hidden pt-20 sm:pt-24 lg:pt-28 pb-32 sm:pb-40 lg:pb-48">
 
       {/* 1. Background Image Layer on Left - Menempel dari batas atas (top-0) hingga batas bawah (bottom-0) */}
       <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[49%] xl:w-[48%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
