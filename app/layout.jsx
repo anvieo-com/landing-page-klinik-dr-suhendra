@@ -32,10 +32,17 @@ export const metadata = {
   creator: 'Klinik dr. Suhendra',
   publisher: 'Klinik dr. Suhendra',
   icons: {
-    icon: '/assets/logo.png',
-    shortcut: '/assets/logo.png',
-    apple: '/assets/logo.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/assets/logo-lg.png', type: 'image/png', sizes: '500x500' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
+  manifest: '/site.webmanifest',
   openGraph: {
     type: 'website',
     locale: 'id_ID',
