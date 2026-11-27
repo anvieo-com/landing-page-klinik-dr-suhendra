@@ -2,30 +2,165 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Bot, 
   Send, 
   Volume2, 
   VolumeX, 
   Square, 
   X, 
   RotateCcw, 
-  Sparkles, 
-  MessageCircle, 
   PhoneCall, 
   ChevronDown, 
   ShieldCheck, 
-  Clock, 
   MapPin, 
-  ExternalLink,
-  CheckCircle2
+  Clock, 
+  Activity,
+  HeartPulse
 } from 'lucide-react';
 
 const QUICK_PROMPTS = [
-  { label: '🏥 6 Cabang & Lokasi', query: 'Di mana saja lokasi 6 cabang Klinik dr. Suhendra dan jam operasionalnya?' },
-  { label: '👨‍⚕️ Jadwal Dokter', query: 'Bagaimana jadwal dokter umum dan dokter gigi hari ini?' },
-  { label: '🚑 IGD & Rawat Inap', query: 'Cabang mana yang menyediakan IGD 24 Jam dan fasilitas rawat inap?' },
-  { label: '💳 BPJS & Biaya', query: 'Apakah Klinik dr. Suhendra menerima BPJS Kesehatan dan asuransi?' },
+  { label: '🏥 6 Cabang & Lokasi', query: 'Di mana saja lokasi 6 cabang Klinik dr. Suhendra dan jam bukanya?' },
+  { label: '👨‍⚕️ Jadwal Dokter & Poli', query: 'Bagaimana jadwal dokter umum dan poli gigi hari ini?' },
+  { label: '🩺 Info Penyakit Umum', query: 'Apa saja langkah penanganan awal untuk demam dan flu di rumah?' },
+  { label: '🚑 IGD & Rawat Inap', query: 'Cabang mana saja yang menyediakan IGD 24 Jam dan rawat inap?' },
 ];
+
+/**
+ * Komponen Karakter Slime Dera AI
+ * - Bulatan putih kebiruan (organic morphing slime)
+ * - Layer gelombang 1 di belakang (biru doff transparan ~40%)
+ * - Layer gelombang 2 di belakang (biru doff lebih transparan ~20%)
+ * - Mata biru doff yang berkedip dan pupil mengikuti arah kursor mouse
+ */
+function DeraSlimeAvatar({ 
+  eyeOffset = { x: 0, y: 0 }, 
+  size = 'large', 
+  isSpeaking = false,
+  onClick
+}) {
+  const isLarge = size === 'large';
+
+  return (
+    <div 
+      onClick={onClick}
+      className={`relative flex items-center justify-center select-none cursor-pointer group ${
+        isLarge ? 'w-16 h-16 sm:w-20 sm:h-20' : 'w-10 h-10'
+      }`}
+      title="Dera AI — Asisten Kesehatan Keluarga Klinik dr. Suhendra"
+    >
+      {/* LAYER GELOMBANG 2 (Paling Belakang - Biru Doff Lebih Transparan ~20%) */}
+      <div 
+        className={`absolute rounded-full bg-[#1e3a8a]/20 pointer-events-none animate-wave-layer2 transition-all duration-500 ${
+          isLarge ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-12 h-12'
+        } ${isSpeaking ? 'scale-125 bg-blue-700/30' : ''}`}
+      />
+
+      {/* LAYER GELOMBANG 1 (Belakang Tengah - Biru Doff Agak Transparan ~40%) */}
+      <div 
+        className={`absolute rounded-full bg-[#1e40af]/40 pointer-events-none animate-wave-layer1 transition-all duration-500 ${
+          isLarge ? 'w-18 h-18 sm:w-21 sm:h-21' : 'w-11 h-11'
+        } ${isSpeaking ? 'scale-115 bg-blue-800/50' : ''}`}
+      />
+
+      {/* BULATAN PUTIH KEBIRUAN UTAMA (Slime Body Organik) */}
+      <div 
+        className={`relative rounded-full animate-slime-morph flex flex-col items-center justify-center transition-transform duration-300 group-hover:scale-105 group-active:scale-95 ${
+          isLarge ? 'w-14 h-14 sm:w-16 sm:h-16' : 'w-9 h-9'
+        }`}
+        style={{
+          background: 'radial-gradient(circle at 35% 30%, #ffffff 0%, #f0f7ff 55%, #dbeafe 88%, #bfdbfe 100%)',
+          boxShadow: isLarge 
+            ? '0 10px 25px -4px rgba(30, 58, 138, 0.28), inset 0 2px 4px rgba(255, 255, 255, 0.95), inset 0 -3px 6px rgba(147, 197, 253, 0.55)'
+            : '0 4px 12px -2px rgba(30, 58, 138, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.95), inset 0 -2px 4px rgba(147, 197, 253, 0.45)',
+          border: '1.5px solid rgba(191, 219, 254, 0.85)',
+        }}
+      >
+        {/* Kilau Specular Highlight (Cahaya di Sudut Kiri Atas) */}
+        <div 
+          className={`absolute rounded-full bg-white/90 pointer-events-none ${
+            isLarge ? 'top-2 left-2.5 w-3.5 h-2 rotate-[-30deg]' : 'top-1 left-1.5 w-2 h-1 rotate-[-30deg]'
+          }`} 
+        />
+
+        {/* WAJAH DERA AI (Mata Biru Doff + Pupil Ikut Mouse + Senyum) */}
+        <div className="flex flex-col items-center justify-center w-full z-10">
+          
+          {/* Baris Kedua Mata */}
+          <div className={`flex items-center justify-center ${isLarge ? 'gap-2.5 sm:gap-3' : 'gap-1.5'}`}>
+            
+            {/* Mata Kiri (Biru Doff dengan animasi kedip) */}
+            <div 
+              className={`rounded-full bg-[#1e3a8a] overflow-hidden relative animate-slime-blink shadow-inner ${
+                isLarge ? 'w-2.5 h-3.5 sm:w-3 sm:h-4' : 'w-1.5 h-2'
+              }`}
+            >
+              {/* Pupil Bola Mata Biru Doff Tua Mengikuti Gerakan Mouse */}
+              <div 
+                className={`rounded-full bg-[#0f2744] absolute transition-transform duration-75 ease-out ${
+                  isLarge ? 'w-1.5 h-2 sm:w-2 sm:h-2.5 top-0.5 left-0.5' : 'w-1 h-1 top-0.5 left-0.5'
+                }`}
+                style={{
+                  transform: `translate(${eyeOffset.x}px, ${eyeOffset.y}px)`,
+                }}
+              >
+                {/* Kilauan Cahaya Putih di dalam Pupil */}
+                <div 
+                  className={`rounded-full bg-white absolute ${
+                    isLarge ? 'w-1 h-1 top-0.5 left-0.5' : 'w-0.5 h-0.5 top-0 left-0'
+                  }`} 
+                />
+              </div>
+            </div>
+
+            {/* Mata Kanan (Biru Doff dengan animasi kedip) */}
+            <div 
+              className={`rounded-full bg-[#1e3a8a] overflow-hidden relative animate-slime-blink shadow-inner ${
+                isLarge ? 'w-2.5 h-3.5 sm:w-3 sm:h-4' : 'w-1.5 h-2'
+              }`}
+            >
+              {/* Pupil Bola Mata Biru Doff Tua Mengikuti Gerakan Mouse */}
+              <div 
+                className={`rounded-full bg-[#0f2744] absolute transition-transform duration-75 ease-out ${
+                  isLarge ? 'w-1.5 h-2 sm:w-2 sm:h-2.5 top-0.5 left-0.5' : 'w-1 h-1 top-0.5 left-0.5'
+                }`}
+                style={{
+                  transform: `translate(${eyeOffset.x}px, ${eyeOffset.y}px)`,
+                }}
+              >
+                {/* Kilauan Cahaya Putih di dalam Pupil */}
+                <div 
+                  className={`rounded-full bg-white absolute ${
+                    isLarge ? 'w-1 h-1 top-0.5 left-0.5' : 'w-0.5 h-0.5 top-0 left-0'
+                  }`} 
+                />
+              </div>
+            </div>
+
+          </div>
+
+          {/* Pipi Merona Lembut (Soft Blue Blush) */}
+          <div className={`flex items-center justify-between w-full px-2.5 sm:px-3 -mt-0.5 pointer-events-none ${isLarge ? '' : 'hidden'}`}>
+            <span className="w-1.5 h-1 rounded-full bg-blue-300/40" />
+            <span className="w-1.5 h-1 rounded-full bg-blue-300/40" />
+          </div>
+
+          {/* Senyum Kecil Imut Biru Doff */}
+          <div 
+            className={`border-b-2 border-[#1e3a8a] rounded-b-full mx-auto ${
+              isLarge ? 'w-2.5 sm:w-3 h-1 mt-0.5' : 'w-1.5 h-0.5 mt-0.5'
+            } ${isSpeaking ? 'h-2 w-2 rounded-full border-2 border-[#1e3a8a] bg-[#1e3a8a]/20 animate-pulse' : ''}`}
+          />
+        </div>
+
+        {/* Titik Hijau Status Siaga Online */}
+        {isLarge && (
+          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white shadow-sm flex items-center justify-center">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function DeraAIWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +168,7 @@ export default function DeraAIWidget() {
     {
       id: 'welcome-1',
       role: 'assistant',
-      content: 'Halo! Saya **Dera AI**, asisten medis pintar dari **Klinik dr. Suhendra** 👋\n\nSaya siap memberikan informasi akurat seputar:\n- 🏥 Rute & lokasi 6 cabang di Bogor Barat\n- ⏰ Layanan IGD 24 Jam & Poli Spesialis/Umum\n- 🛏️ Rawat inap, kebidanan KIA, laboratorium & apotek\n- 📋 Pendaftaran antrean dokter\n\nAda yang bisa Dera bantu untuk kesehatan Anda atau keluarga hari ini?',
+      content: 'Halo, saya **Dera AI**, asisten kesehatan keluarga dari **Klinik dr. Suhendra**.\n\nSaya siap membantu memberikan informasi seputar layanan 6 cabang klinik kami serta edukasi kesehatan keluarga untuk keluhan penyakit umum.\n\nAda yang bisa Dera bantu hari ini?',
       timestamp: 'Baru saja'
     }
   ]);
@@ -44,12 +179,16 @@ export default function DeraAIWidget() {
   const [audioLoadingId, setAudioLoadingId] = useState(null);
   const [showTooltip, setShowTooltip] = useState(true);
   const [sessionId, setSessionId] = useState('');
+  
+  // Koordinat pergerakan pupil mata mengikuti mouse
+  const [eyeOffset, setEyeOffset] = useState({ x: 0, y: 0 });
 
+  const widgetTriggerRef = useRef(null);
   const chatEndRef = useRef(null);
   const audioRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Inisialisasi session_id unik pada client session
+  // Inisialisasi session & tracker mouse
   useEffect(() => {
     try {
       let storedSession = window.sessionStorage.getItem('dera_session_id');
@@ -62,11 +201,44 @@ export default function DeraAIWidget() {
       setSessionId(`dera-${Date.now()}`);
     }
 
-    // Auto-hide tooltip setelah 12 detik jika user belum klik
+    // Auto-hide tooltip sambutan setelah 10 detik
     const timer = setTimeout(() => {
       setShowTooltip(false);
-    }, 12000);
-    return () => clearTimeout(timer);
+    }, 10000);
+
+    // Event listener mousemove untuk pergerakan pupil mata
+    const handleMouseMove = (e) => {
+      if (!widgetTriggerRef.current) return;
+      const rect = widgetTriggerRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const deltaX = e.clientX - centerX;
+      const deltaY = e.clientY - centerY;
+      const distance = Math.hypot(deltaX, deltaY);
+
+      const maxRadius = 3.2; // Batas radius gerak pupil
+      if (distance === 0) {
+        setEyeOffset({ x: 0, y: 0 });
+        return;
+      }
+
+      // Hitung pergeseran proporsional yang halus
+      const factor = Math.min(distance / 250, 1) * maxRadius;
+      const angle = Math.atan2(deltaY, deltaX);
+
+      setEyeOffset({
+        x: Math.round(Math.cos(angle) * factor * 10) / 10,
+        y: Math.round(Math.sin(angle) * factor * 10) / 10,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   // Auto-scroll ke pesan terbaru
@@ -85,7 +257,7 @@ export default function DeraAIWidget() {
     }
   }, [isOpen]);
 
-  // Hentikan audio jika komponen unmount
+  // Hentikan audio jika unmount
   useEffect(() => {
     return () => {
       stopAudio();
@@ -124,7 +296,7 @@ export default function DeraAIWidget() {
     try {
       window.speechSynthesis.cancel();
 
-      // Bersihkan karakter simbol, markdown, asterik, dan emoji
+      // Bersihkan teks dari markdown & simbol
       const cleanText = text
         .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
         .replace(/[*_#`~-]/g, ' ')
@@ -135,7 +307,6 @@ export default function DeraAIWidget() {
       utterance.lang = 'id-ID';
       utterance.rate = 1.05;
 
-      // Cari suara bahasa Indonesia jika ada
       const voices = window.speechSynthesis.getVoices();
       const idVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ID'));
       if (idVoice) utterance.voice = idVoice;
@@ -156,7 +327,7 @@ export default function DeraAIWidget() {
 
       window.speechSynthesis.speak(utterance);
     } catch (err) {
-      console.warn('Browser speech synthesis error:', err);
+      console.warn('Browser speech synthesis fallback error:', err);
       setPlayingMessageId(null);
       setAudioLoadingId(null);
     }
@@ -164,7 +335,6 @@ export default function DeraAIWidget() {
 
   // Handle Play/Stop TTS
   const handleToggleSpeak = async (text, messageId) => {
-    // Jika sedang play pesan yang sama, hentikan
     if (playingMessageId === messageId) {
       stopAudio();
       return;
@@ -210,11 +380,10 @@ export default function DeraAIWidget() {
           playBrowserSpeech(text, messageId);
         };
       } else {
-        // Fallback ke browser speech synthesis jika server mengembalikan fallback flag
         playBrowserSpeech(text, messageId);
       }
     } catch (err) {
-      console.warn('Garda TTS proxy unreachable, falling back to browser speech:', err);
+      console.warn('TTS proxy error, fallback to browser speech:', err);
       playBrowserSpeech(text, messageId);
     }
   };
@@ -251,7 +420,7 @@ export default function DeraAIWidget() {
       });
 
       const data = await res.json();
-      const replyText = data.reply || 'Maaf, Dera AI sedang mengalami sedikit kendala jaringan. Anda dapat langsung menghubungi WhatsApp IGD Klinik dr. Suhendra di 0823-1118-8250.';
+      const replyText = data.reply || 'Maaf, Dera AI sedang mengalami kendala sesaat. Anda dapat langsung berkonsultasi via WhatsApp di 0823-1118-8250.';
       const aiMsgId = `ai-${Date.now()}`;
 
       setMessages(prev => [
@@ -264,7 +433,6 @@ export default function DeraAIWidget() {
         }
       ]);
 
-      // Jika audio tidak dimute, otomatis bacakan respon Dera AI
       if (!isMuted) {
         setTimeout(() => {
           handleToggleSpeak(replyText, aiMsgId);
@@ -278,7 +446,7 @@ export default function DeraAIWidget() {
         {
           id: errorMsgId,
           role: 'assistant',
-          content: 'Koneksi ke asisten Dera AI terputus sesaat. Jangan khawatir, tim medis kami siaga 24 Jam di WhatsApp: **0823-1118-8250**.',
+          content: 'Koneksi terputus sesaat. Untuk informasi segera, silakan hubungi WhatsApp kami di **0823-1118-8250**.',
           timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
         }
       ]);
@@ -293,28 +461,27 @@ export default function DeraAIWidget() {
       {
         id: 'welcome-reset',
         role: 'assistant',
-        content: 'Percakapan telah direset. Silakan tanyakan informasi klinik, lokasi cabang, atau jadwal dokter yang ingin Anda ketahui! 😊',
+        content: 'Halo, percakapan telah direset. Silakan tanyakan seputar layanan 6 cabang Klinik dr. Suhendra atau info kesehatan umum keluarga Anda.',
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
       }
     ]);
   };
 
-  // Helper render format teks sederhana (bold, list, bullet)
+  // Render teks terformat rapi
   const renderFormattedText = (text) => {
     if (!text) return null;
 
     const lines = text.split('\n');
     return lines.map((line, idx) => {
-      // Format bold markdown **teks**
       const parts = line.split(/(\*\*[^*]+\*\*)/g);
       const parsedLine = parts.map((part, pIdx) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={pIdx} className="font-semibold text-navy-950">{part.slice(2, -2)}</strong>;
+          return <strong key={pIdx} className="font-semibold text-slate-900">{part.slice(2, -2)}</strong>;
         }
         return part;
       });
 
-      if (line.trim().startsWith('- ') || line.trim().startsWith('• ')) {
+      if (line.trim().startsWith('- ') || line.trim().startsWith('* ') || line.trim().startsWith('• ')) {
         return (
           <li key={idx} className="ml-4 list-disc text-slate-700 my-0.5 leading-relaxed">
             {parsedLine}
@@ -323,7 +490,7 @@ export default function DeraAIWidget() {
       }
 
       if (!line.trim()) {
-        return <div key={idx} className="h-2" />;
+        return <div key={idx} className="h-1.5" />;
       }
 
       return (
@@ -337,19 +504,22 @@ export default function DeraAIWidget() {
   return (
     <>
       {/* ========================================================
-          1. FLOATING BUTTON & GLOWING ANIMATED ORB (BOTTOM-RIGHT)
+          1. FLOATING SLIME CHARACTER WIDGET (POJOK KANAN BAWAH)
          ======================================================== */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+      <div 
+        ref={widgetTriggerRef}
+        className="fixed bottom-6 right-6 z-50 flex flex-col items-end"
+      >
         
-        {/* Tooltip sambutan cerdas (bisa ditutup oleh user) */}
+        {/* Tooltip Sambutan Sederhana & Ramah */}
         {!isOpen && showTooltip && (
-          <div className="mb-3 mr-1 relative animate-bounce-subtle">
-            <div className="bg-navy-950 text-white px-3.5 py-2.5 rounded-2xl shadow-navy border border-blue-500/30 text-xs sm:text-sm max-w-[240px] relative flex items-start gap-2">
+          <div className="mb-2 mr-1 relative animate-bounce-subtle">
+            <div className="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl shadow-xl border border-blue-400/30 text-xs sm:text-sm max-w-[230px] relative flex items-start gap-2">
               <span className="text-base leading-none">👋</span>
               <div>
-                <p className="font-bold text-blue-300">Tanya Dera AI</p>
+                <p className="font-bold text-blue-200">Dera AI</p>
                 <p className="text-[11px] text-slate-300 leading-snug mt-0.5">
-                  Asisten medis 24 Jam. Konsultasi jadwal & 6 cabang klinik!
+                  Asisten kesehatan keluarga. Tanya jadwal & info klinik!
                 </p>
               </div>
               <button 
@@ -358,63 +528,45 @@ export default function DeraAIWidget() {
                   setShowTooltip(false);
                 }}
                 className="text-slate-400 hover:text-white p-0.5 transition"
-                title="Tutup pesan"
-                aria-label="Tutup pesan sambutan"
+                title="Tutup"
+                aria-label="Tutup pesan"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
-              {/* Panah tooltip ke arah tombol */}
-              <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-navy-950 border-r border-b border-blue-500/30 transform rotate-45" />
+              {/* Panah tooltip */}
+              <div className="absolute -bottom-1.5 right-7 w-3 h-3 bg-slate-900 border-r border-b border-blue-400/30 transform rotate-45" />
             </div>
           </div>
         )}
 
-        {/* Tombol Utama Dera AI */}
-        <button
+        {/* Karakter Slime Interaktif Dera AI */}
+        <DeraSlimeAvatar
+          eyeOffset={eyeOffset}
+          size="large"
+          isSpeaking={!!playingMessageId}
           onClick={() => {
             setIsOpen(!isOpen);
             setShowTooltip(false);
           }}
-          className="relative group p-0.5 rounded-full focus:outline-none transition-all duration-300 active:scale-95"
-          aria-label={isOpen ? "Tutup Dera AI" : "Buka Dera AI"}
-          title="Dera AI — Asisten Medis Virtual Klinik dr. Suhendra"
+        />
+
+        {/* Label Nama Kecil Doff di bawah Karakter */}
+        <div 
+          onClick={() => {
+            setIsOpen(!isOpen);
+            setShowTooltip(false);
+          }}
+          className="mt-1 cursor-pointer select-none"
         >
-          {/* Gelombang Aura / Radar Ping Glowing */}
-          <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-600 opacity-75 blur-sm group-hover:opacity-100 animate-pulse transition duration-500" />
-          <span className="absolute -inset-2.5 rounded-full border border-cyan-400/30 animate-ping pointer-events-none" />
-
-          {/* Lingkaran Tombol dengan Gradient Navy & Aksen Medis */}
-          <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-navy-950 via-navy-900 to-blue-950 border-2 border-cyan-400/80 shadow-2xl flex items-center justify-center overflow-hidden">
-            
-            {/* Animasi Cahaya Berputar Halus */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-400/10 to-transparent group-hover:via-cyan-400/25 transition-all duration-700 pointer-events-none" />
-
-            {isOpen ? (
-              <X className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300" strokeWidth={2.5} />
-            ) : (
-              <div className="flex flex-col items-center justify-center relative">
-                {/* Robot/AI Avatar Icon dengan Efek Pulse */}
-                <div className="relative">
-                  <Bot className="w-7 h-7 sm:w-8 sm:h-8 text-cyan-300 group-hover:scale-110 transition-transform duration-300" strokeWidth={2.2} />
-                  {/* Kilauan Sparkle AI */}
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300 absolute -top-1 -right-1 animate-spin-slow" />
-                </div>
-                <span className="text-[9px] font-black tracking-wider text-cyan-200 mt-0.5 uppercase drop-shadow">
-                  DERA
-                </span>
-              </div>
-            )}
-
-            {/* Indikator Titik Hijau Status Online 24 Jam */}
-            <div className="absolute bottom-1 right-2 sm:right-2.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-navy-950 flex items-center justify-center">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-            </div>
-          </div>
-        </button>
+          <span className="bg-[#1e3a8a]/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm tracking-wide border border-blue-400/30 flex items-center gap-1 hover:bg-[#1e3a8a] transition">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            DERA AI
+          </span>
+        </div>
       </div>
 
       {/* ========================================================
-          2. CHAT DRAWER / DIALOG INTERAKTIF DERA AI
+          2. CHAT DRAWER / MODAL ASISTEN KESEHATAN KELUARGA
          ======================================================== */}
       {isOpen && (
         <div 
@@ -423,31 +575,28 @@ export default function DeraAIWidget() {
           aria-labelledby="dera-ai-title"
         >
           {/* HEADER CHAT */}
-          <div className="bg-gradient-to-r from-navy-950 via-navy-900 to-blue-950 text-white p-4 flex items-center justify-between border-b border-navy-800 shadow-sm relative">
+          <div className="bg-gradient-to-r from-slate-900 via-[#1e3a8a] to-slate-900 text-white p-3.5 sm:p-4 flex items-center justify-between border-b border-blue-900 shadow-sm relative">
             
-            {/* Profil Dera AI */}
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 p-0.5 shadow-md flex items-center justify-center">
-                  <div className="w-full h-full bg-navy-950 rounded-[14px] flex items-center justify-center">
-                    <Bot className="w-5 h-5 text-cyan-300" strokeWidth={2.2} />
-                  </div>
-                </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-navy-950 rounded-full" />
-              </div>
+            {/* Profil Slime Dera AI di Header */}
+            <div className="flex items-center gap-2.5">
+              <DeraSlimeAvatar
+                eyeOffset={eyeOffset}
+                size="small"
+                isSpeaking={!!playingMessageId}
+              />
 
               <div>
                 <div className="flex items-center gap-1.5">
                   <h3 id="dera-ai-title" className="font-bold text-white text-base tracking-tight leading-none">
                     Dera AI
                   </h3>
-                  <span className="bg-cyan-500/20 text-cyan-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full border border-cyan-400/30">
-                    Official
+                  <span className="bg-blue-400/20 text-blue-200 text-[10px] font-medium px-1.5 py-0.5 rounded-full border border-blue-300/30">
+                    Kesehatan Keluarga
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-300 flex items-center gap-1 mt-0.5">
+                <p className="text-[11px] text-slate-200 flex items-center gap-1 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Klinik dr. Suhendra • Siaga 24 Jam
+                  Klinik dr. Suhendra • 6 Cabang
                 </p>
               </div>
             </div>
@@ -463,10 +612,10 @@ export default function DeraAIWidget() {
                 }}
                 className={`p-2 rounded-xl transition-colors ${
                   isMuted 
-                    ? 'text-slate-400 hover:text-slate-200 hover:bg-navy-800' 
-                    : 'text-cyan-300 hover:bg-navy-800 bg-navy-900/60'
+                    ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800' 
+                    : 'text-blue-300 hover:bg-slate-800 bg-slate-800/60'
                 }`}
-                title={isMuted ? "Nyalakan Suara Dera AI" : "Matikan Suara Dera AI"}
+                title={isMuted ? "Nyalakan Suara" : "Matikan Suara"}
                 aria-label="Toggle suara asisten"
               >
                 {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
@@ -475,7 +624,7 @@ export default function DeraAIWidget() {
               {/* Reset Percakapan */}
               <button
                 onClick={handleResetChat}
-                className="p-2 text-slate-400 hover:text-white hover:bg-navy-800 rounded-xl transition-colors"
+                className="p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
                 title="Hapus riwayat chat"
                 aria-label="Reset percakapan"
               >
@@ -488,8 +637,8 @@ export default function DeraAIWidget() {
                   setIsOpen(false);
                   stopAudio();
                 }}
-                className="p-2 text-slate-400 hover:text-white hover:bg-navy-800 rounded-xl transition-colors"
-                title="Tutup jendela chat"
+                className="p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+                title="Tutup chat"
                 aria-label="Tutup jendela"
               >
                 <ChevronDown className="w-5 h-5" />
@@ -499,14 +648,14 @@ export default function DeraAIWidget() {
 
           {/* BANNER STATUS SUARA / SOUNDWAVE ACTIVE */}
           {playingMessageId && (
-            <div className="bg-cyan-50 border-b border-cyan-200/80 px-3.5 py-1.5 flex items-center justify-between text-xs text-cyan-900">
+            <div className="bg-blue-50 border-b border-blue-200 px-3.5 py-1.5 flex items-center justify-between text-xs text-blue-900">
               <div className="flex items-center gap-2">
                 <span className="flex gap-0.5 items-end h-3.5">
-                  <span className="w-1 bg-cyan-600 rounded-full animate-bounce h-2" style={{ animationDelay: '0ms' }} />
-                  <span className="w-1 bg-cyan-600 rounded-full animate-bounce h-3.5" style={{ animationDelay: '150ms' }} />
-                  <span className="w-1 bg-cyan-600 rounded-full animate-bounce h-2.5" style={{ animationDelay: '300ms' }} />
+                  <span className="w-1 bg-[#1e3a8a] rounded-full animate-bounce h-2" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1 bg-[#1e3a8a] rounded-full animate-bounce h-3.5" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1 bg-[#1e3a8a] rounded-full animate-bounce h-2.5" style={{ animationDelay: '300ms' }} />
                 </span>
-                <span className="font-medium text-[11px]">Dera AI sedang berbicara (Garda Voice)...</span>
+                <span className="font-medium text-[11px]">Dera AI sedang membaca suara...</span>
               </div>
               <button
                 onClick={stopAudio}
@@ -518,19 +667,8 @@ export default function DeraAIWidget() {
             </div>
           )}
 
-          {/* BADGE KEAMANAN CYBER */}
-          <div className="bg-slate-50 border-b border-slate-100 px-3.5 py-1 flex items-center justify-between text-[10px] text-slate-500">
-            <span className="flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              Private & Encrypted Server Proxy
-            </span>
-            <span className="text-[10px] text-slate-400 font-mono">
-              Model: Gemma 4 • TTS Ardi
-            </span>
-          </div>
-
           {/* DAFTAR PESAN (CHAT BODY) */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/60">
             
             {messages.map((msg) => {
               const isAi = msg.role === 'assistant';
@@ -542,19 +680,19 @@ export default function DeraAIWidget() {
                   key={msg.id}
                   className={`flex gap-2.5 ${isAi ? 'justify-start' : 'justify-end'}`}
                 >
-                  {/* Avatar AI */}
+                  {/* Mini Slime Avatar untuk pesan AI */}
                   {isAi && (
-                    <div className="w-7 h-7 rounded-xl bg-navy-950 flex items-center justify-center shrink-0 border border-blue-400/40 text-cyan-300 mt-1 shadow-sm">
-                      <Bot className="w-4 h-4" />
+                    <div className="mt-1 shrink-0">
+                      <DeraSlimeAvatar eyeOffset={eyeOffset} size="small" />
                     </div>
                   )}
 
-                  {/* Bubble Konten */}
+                  {/* Bubble Pesan */}
                   <div
                     className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm relative ${
                       isAi
-                        ? 'bg-white text-slate-800 border border-slate-200/90 rounded-tl-sm'
-                        : 'bg-gradient-to-r from-navy-950 to-navy-900 text-white rounded-tr-sm shadow-navy'
+                        ? 'bg-white text-slate-800 border border-slate-200 rounded-tl-sm'
+                        : 'bg-gradient-to-r from-slate-900 to-[#1e3a8a] text-white rounded-tr-sm shadow-md'
                     }`}
                   >
                     <div className="prose prose-sm max-w-none text-left">
@@ -563,29 +701,29 @@ export default function DeraAIWidget() {
 
                     {/* Tombol Audio Speaker untuk Balasan AI */}
                     {isAi && (
-                      <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                      <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
                         <button
                           onClick={() => handleToggleSpeak(msg.content, msg.id)}
                           className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition ${
                             isPlaying
                               ? 'bg-red-50 text-red-600 border border-red-200'
-                              : 'bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200'
+                              : 'bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-800 border border-slate-200'
                           }`}
-                          title={isPlaying ? 'Hentikan audio' : 'Dengarkan suara Dera AI'}
+                          title={isPlaying ? 'Hentikan suara' : 'Dengarkan suara'}
                         >
                           {isAudioLoading ? (
                             <>
                               <span className="w-3 h-3 rounded-full border-2 border-blue-600 border-t-transparent animate-spin" />
-                              <span>Memuat suara...</span>
+                              <span>Memuat...</span>
                             </>
                           ) : isPlaying ? (
                             <>
                               <Square className="w-3 h-3 fill-current text-red-600" />
-                              <span>Hentikan Suara</span>
+                              <span>Stop</span>
                             </>
                           ) : (
                             <>
-                              <Volume2 className="w-3.5 h-3.5 text-blue-600" />
+                              <Volume2 className="w-3.5 h-3.5 text-blue-700" />
                               <span>Dengarkan</span>
                             </>
                           )}
@@ -609,11 +747,11 @@ export default function DeraAIWidget() {
               );
             })}
 
-            {/* Indikator Mengetik / Memproses Jawaban AI */}
+            {/* Indikator AI Sedang Memproses */}
             {isLoading && (
               <div className="flex gap-2.5 justify-start">
-                <div className="w-7 h-7 rounded-xl bg-navy-950 flex items-center justify-center shrink-0 border border-blue-400/40 text-cyan-300 mt-1">
-                  <Bot className="w-4 h-4 animate-pulse" />
+                <div className="mt-1 shrink-0">
+                  <DeraSlimeAvatar eyeOffset={eyeOffset} size="small" />
                 </div>
                 <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm flex items-center gap-2">
                   <span className="text-xs text-slate-500 font-medium">Dera AI sedang memproses...</span>
@@ -629,8 +767,8 @@ export default function DeraAIWidget() {
             <div ref={chatEndRef} />
           </div>
 
-          {/* REKOMENDASI PERTANYAAN CEPAT (CHIPS) */}
-          <div className="p-2.5 bg-slate-100/80 border-t border-slate-200 overflow-x-auto">
+          {/* QUICK PROMPT CHIPS */}
+          <div className="p-2.5 bg-slate-100/90 border-t border-slate-200 overflow-x-auto">
             <div className="flex gap-1.5 whitespace-nowrap scrollbar-none">
               {QUICK_PROMPTS.map((item, idx) => (
                 <button
@@ -659,27 +797,27 @@ export default function DeraAIWidget() {
                 type="text"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Tanyakan cabang, jadwal dokter, atau layanan..."
+                placeholder="Tanya seputar layanan 6 cabang atau info kesehatan umum..."
                 disabled={isLoading}
                 className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition disabled:opacity-50 placeholder:text-slate-400"
               />
               <button
                 type="submit"
                 disabled={!inputMessage.trim() || isLoading}
-                className="w-10 h-10 rounded-xl bg-gradient-to-tr from-navy-950 to-blue-600 hover:from-navy-900 hover:to-blue-500 text-white flex items-center justify-center shrink-0 transition shadow-md disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
-                aria-label="Kirim pesan"
+                className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-900 to-[#1e3a8a] hover:from-slate-800 hover:to-blue-700 text-white flex items-center justify-center shrink-0 transition shadow-md disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                aria-label="Kirim pertanyaan"
               >
                 <Send className="w-4 h-4" />
               </button>
             </form>
 
-            {/* Micro Links & Disclaimer Medis */}
+            {/* Micro Guardrails & Hotline IGD */}
             <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400 pt-1">
-              <span className="truncate max-w-[220px]">
-                ⚠️ Info umum. Darurat segera ke IGD 24 Jam.
+              <span className="truncate max-w-[230px]">
+                ⚠️ Asisten umum. Tidak meresepkan obat / diagnosa berat.
               </span>
               <a
-                href="https://wa.me/6282311188250?text=Halo%20Klinik%20dr.%20Suhendra,%20saya%20butuh%20bantuan%20medis%20segera."
+                href="https://wa.me/6282311188250?text=Halo%20Klinik%20dr.%20Suhendra,%20saya%20butuh%20informasi%20medis."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-emerald-600 font-bold hover:underline flex items-center gap-0.5"

@@ -77,6 +77,69 @@ body {
   animation: spinSlow 8s linear infinite;
 }
 
+/* Slime Organic Morph & Waves for Dera AI */
+@keyframes slimeMorph {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: scale(1) translateY(0);
+  }
+  34% {
+    border-radius: 40% 60% 55% 45% / 50% 60% 40% 50%;
+    transform: scale(1.02, 0.98) translateY(-2px);
+  }
+  67% {
+    border-radius: 50% 50% 40% 60% / 40% 45% 55% 60%;
+    transform: scale(0.98, 1.02) translateY(1px);
+  }
+}
+
+.animate-slime-morph {
+  animation: slimeMorph 6s ease-in-out infinite;
+}
+
+@keyframes waveLayer1 {
+  0%, 100% {
+    border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%;
+    transform: rotate(0deg) scale(1.18);
+  }
+  50% {
+    border-radius: 55% 45% 40% 60% / 45% 55% 45% 55%;
+    transform: rotate(180deg) scale(1.26);
+  }
+}
+
+.animate-wave-layer1 {
+  animation: waveLayer1 8s ease-in-out infinite;
+}
+
+@keyframes waveLayer2 {
+  0%, 100% {
+    border-radius: 50% 50% 45% 55% / 55% 45% 50% 50%;
+    transform: rotate(360deg) scale(1.36);
+  }
+  50% {
+    border-radius: 40% 60% 55% 45% / 45% 55% 40% 60%;
+    transform: rotate(180deg) scale(1.48);
+  }
+}
+
+.animate-wave-layer2 {
+  animation: waveLayer2 12s linear infinite;
+}
+
+@keyframes slimeBlink {
+  0%, 92%, 100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+.animate-slime-blink {
+  animation: slimeBlink 3.8s ease-in-out infinite;
+}
+
 /* Subtle cross pattern background for banners */
 .bg-medical-pattern {
   background-color: #0f2744;
