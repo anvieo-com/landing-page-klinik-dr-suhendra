@@ -28,7 +28,7 @@ export default function QuickStatsHeroBar() {
   ];
 
   return (
-    <section className="bg-slate-100 py-6 sm:py-8 lg:py-10 border-b border-slate-200/80">
+    <section className="bg-slate-100 py-6 sm:py-8 lg:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white border border-slate-200/80 rounded-2xl sm:rounded-3xl shadow-sm p-5 sm:p-6 lg:p-7">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
