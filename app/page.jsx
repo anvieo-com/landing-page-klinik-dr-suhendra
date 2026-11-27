@@ -5,7 +5,6 @@ import HeaderTopBar from '@/components/HeaderTopBar';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import AboutSectionHome from '@/components/AboutSectionHome';
-import ClinicHighlightsSection from '@/components/ClinicHighlightsSection';
 import QuickStatsDarkBanner from '@/components/QuickStatsDarkBanner';
 import ServicesSection from '@/components/ServicesSection';
 import QuickStatsHeroBar from '@/components/QuickStatsHeroBar';
@@ -63,9 +62,6 @@ export default function HomePage() {
 
       {/* 5. Section Tentang Kami (Gambar di Kiri, Keterangan di Kanan) */}
       <AboutSectionHome onOpenBooking={() => handleOpenBooking()} />
-
-      {/* 5.5 Section 4 Pilar Keunggulan Mandiri (Model Garis Pembatas & Icon di Atas) */}
-      <ClinicHighlightsSection />
 
       {/* Signature Dark Navy Stats Banner (Block Biru yang Sebelumnya) */}
       <QuickStatsDarkBanner />
