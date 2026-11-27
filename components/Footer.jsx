@@ -115,28 +115,47 @@ export default function Footer({ onOpenBooking }) {
 
         </div>
 
-        {/* Bottom Footer Info & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>
+        {/* Bottom Footer Info, Legal Links & Copyright */}
+        <div className="pt-8 border-t border-navy-900/80 flex flex-col lg:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p className="text-center lg:text-left">
             &copy; {new Date().getFullYear()} <strong>Klinik dr. Suhendra</strong>. Seluruh Hak Cipta Dilindungi.
           </p>
 
-          <div className="flex items-center gap-4">
-            <a
-              href={`https://wa.me/${clinicInfo.whatsapp}?text=Halo%20Klinik%20dr.%20Suhendra,%20saya%20ingin%20mendaftar%20antrean%20online.`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-bold text-blue-400 hover:text-white transition-colors"
+          <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-2 text-[11px] sm:text-xs">
+            <Link
+              href="/ketentuan-layanan"
+              className="hover:text-slate-300 transition-colors"
             >
-              Pendaftaran Online via WhatsApp
-            </a>
-            <span>•</span>
+              Ketentuan Berlaku
+            </Link>
+            <span className="text-navy-700 select-none">•</span>
+            <Link
+              href="/disclaimer"
+              className="hover:text-slate-300 transition-colors"
+            >
+              Disclaimer
+            </Link>
+            <span className="text-navy-700 select-none">•</span>
+            <Link
+              href="/kebijakan-privasi"
+              className="hover:text-slate-300 transition-colors"
+            >
+              Kebijakan Privasi
+            </Link>
+            <span className="text-navy-700 select-none">•</span>
+            <Link
+              href="/hak-kewajiban-pasien"
+              className="hover:text-slate-300 transition-colors"
+            >
+              Hak & Kewajiban Pasien
+            </Link>
+            <span className="text-navy-700 select-none">•</span>
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1 font-semibold text-slate-400 hover:text-white transition-colors ml-0.5"
             >
-              <span>Kembali ke Atas</span>
-              <ArrowUp className="w-3.5 h-3.5" strokeWidth={2} />
+              <span>Atas</span>
+              <ArrowUp className="w-3 h-3" strokeWidth={2} />
             </button>
           </div>
         </div>
