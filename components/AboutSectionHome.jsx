@@ -7,10 +7,10 @@ import { ArrowRight } from 'lucide-react';
 
 export default function AboutSectionHome() {
   return (
-    <section id="tentang" className="relative bg-slate-100 overflow-hidden py-16 lg:py-24">
+    <section id="tentang" className="relative bg-slate-100 overflow-hidden py-24 sm:py-28 lg:py-36">
 
       {/* 1. Background Image Layer on Left - Menempel dari batas atas (top-0) hingga batas bawah (bottom-0) */}
-      <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[56%] xl:w-[53%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
+      <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[56%] xl:w-[53%] h-[420px] sm:h-[480px] lg:h-full overflow-hidden z-0 pointer-events-none">
         <div className="relative w-full h-full">
           <Image
             src="/assets/tentang-klinik-suhendra.jpg"
@@ -21,14 +21,14 @@ export default function AboutSectionHome() {
           />
         </div>
 
-        {/* Shading Atas: Lembut membaur ke latar abu-abu di atas */}
-        <div className="absolute inset-x-0 top-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-b from-slate-100 via-slate-100/80 to-transparent z-[1]" />
+        {/* Shading Atas: Sangat pekat dari dasar slate-100 agar garis batas atas foto tertutup sempurna */}
+        <div className="absolute inset-x-0 top-0 h-32 sm:h-44 lg:h-56 bg-gradient-to-b from-slate-100 via-slate-100 via-40% to-transparent z-[1]" />
 
-        {/* Shading Bawah: Membaur ke latar abu-abu di bagian bawah (mobile & desktop) */}
-        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 lg:h-32 bg-gradient-to-t from-slate-100 via-slate-100/85 to-transparent z-[1]" />
+        {/* Shading Bawah: Sangat pekat dari dasar slate-100 agar garis batas bawah foto tertutup sempurna */}
+        <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 lg:h-64 bg-gradient-to-t from-slate-100 via-slate-100 via-45% to-transparent z-[1]" />
 
         {/* Shading Kanan: Membaur anggun ke latar abu-abu teks di sebelah kanan */}
-        <div className="absolute inset-y-0 right-0 w-28 sm:w-36 lg:w-48 bg-gradient-to-r from-transparent via-slate-100/80 via-40% to-slate-100 z-[1]" />
+        <div className="absolute inset-y-0 right-0 w-32 sm:w-44 lg:w-60 bg-gradient-to-r from-transparent via-slate-100/90 via-50% to-slate-100 z-[1]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
