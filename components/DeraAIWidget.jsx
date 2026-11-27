@@ -70,6 +70,14 @@ export default function DeraAIWidget() {
     window.addEventListener('toggle-dera-ai', handleToggle);
     window.addEventListener('open-dera-ai', handleOpen);
 
+    // Pre-load Web Speech API voices
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
+
     return () => {
       window.removeEventListener('toggle-dera-ai', handleToggle);
       window.removeEventListener('open-dera-ai', handleOpen);
@@ -140,18 +148,18 @@ export default function DeraAIWidget() {
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.lang = 'id-ID';
-      utterance.rate = 1.0;
-      utterance.pitch = 0.84; // Suara pria hangat & tenang
+      utterance.rate = 0.95;
+      utterance.pitch = 0.82; // Frekuensi rendah untuk karakter suara pria tenang & berwibawa
 
       const voices = window.speechSynthesis.getVoices();
-      const idVoices = voices.filter(v => v.lang.includes('id') || v.lang.includes('ID') || v.lang.includes('ind'));
-      const maleIdVoice = idVoices.find(v => {
+      const idVoices = voices.filter(v => v.lang.includes('id') || v.lang.includes('ID') || v.lang.includes('ind') || v.lang.includes('ms'));
+      const maleVoice = idVoices.find(v => {
         const name = (v.name || '').toLowerCase();
-        return name.includes('ardi') || name.includes('male') || name.includes('laki') || name.includes('pria') || name.includes('andika') || name.includes('budi') || name.includes('tri');
+        return name.includes('ardi') || name.includes('male') || name.includes('laki') || name.includes('pria') || name.includes('andika') || name.includes('budi') || name.includes('tri') || name.includes('david');
       }) || idVoices[0];
 
-      if (maleIdVoice) {
-        utterance.voice = maleIdVoice;
+      if (maleVoice) {
+        utterance.voice = maleVoice;
       }
 
       utterance.onstart = () => {
