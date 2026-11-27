@@ -10,13 +10,13 @@ export default function AboutSectionHome() {
     <section id="tentang" className="relative bg-slate-100 overflow-hidden py-20 sm:py-24 lg:py-28">
 
       {/* 1. Background Image Layer on Left - Menempel dari batas atas (top-0) hingga batas bawah (bottom-0) */}
-      <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[56%] xl:w-[53%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
+      <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[49%] xl:w-[48%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
         <div className="relative w-full h-full">
           <Image
-            src="/assets/tentang-klinik-suhendra.jpg"
-            alt="Lobby & Resepsionis Klinik dr. Suhendra"
+            src="/assets/tentang-dokter-pasien.jpg"
+            alt="Dedikasi Sepenuh Hati Dokter & Pasien Klinik dr. Suhendra"
             fill
-            className="object-cover object-top select-none"
+            className="object-cover object-[88%_center] select-none"
             priority
           />
         </div>
@@ -28,7 +28,7 @@ export default function AboutSectionHome() {
         <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-t from-slate-100 from-25% via-slate-100/90 via-55% to-transparent z-[1]" />
 
         {/* Shading Kanan: Membaur anggun ke latar abu-abu teks di sebelah kanan secara proporsional */}
-        <div className="absolute inset-y-0 right-0 w-24 sm:w-32 lg:w-40 bg-gradient-to-r from-transparent via-slate-100/80 via-40% to-slate-100 to-85% z-[1]" />
+        <div className="absolute inset-y-0 right-0 w-20 sm:w-28 lg:w-32 bg-gradient-to-r from-transparent via-slate-100/80 to-slate-100 z-[1]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
