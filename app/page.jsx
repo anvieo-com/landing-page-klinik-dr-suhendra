@@ -63,11 +63,11 @@ export default function HomePage() {
       {/* 5. Section Tentang Kami (Gambar di Kiri, Keterangan di Kanan) */}
       <AboutSectionHome onOpenBooking={() => handleOpenBooking()} />
 
-      {/* Signature Dark Navy Stats Banner (Block Biru yang Sebelumnya) */}
-      <QuickStatsDarkBanner />
-
       {/* 6. Section Layanan Medis Kami (Flat Icon Saja) */}
       <ServicesSection onSelectService={(service) => setSelectedService(service)} />
+
+      {/* Signature Dark Navy Stats Banner — dipindah setelah Services */}
+      <QuickStatsDarkBanner />
 
       {/* 7. Interactive Doctor Schedule with Branch & Poli Switchers */}
       <DoctorScheduleSection onSelectDoctor={handleSelectDoctor} />

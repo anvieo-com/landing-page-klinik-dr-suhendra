@@ -9,26 +9,29 @@ export default function AboutSectionHome() {
   return (
     <section id="tentang" className="relative bg-slate-100 overflow-hidden pt-20 sm:pt-24 lg:pt-28 pb-32 sm:pb-40 lg:pb-48">
 
-      {/* 1. Background Image Layer on Left - Menempel dari batas atas (top-0) hingga batas bawah (bottom-0) */}
-      <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[49%] xl:w-[48%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
+      {/* 1. Background Image Layer - Melebar sebagai background section & digeser ke kanan */}
+      <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[66%] xl:w-[64%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
         <div className="relative w-full h-full">
           <Image
             src="/assets/tentang-dokter-pasien.jpg"
             alt="Dedikasi Sepenuh Hati Dokter & Pasien Klinik dr. Suhendra"
             fill
-            className="object-cover object-[85%_center] select-none"
+            className="object-cover object-[65%_center] select-none"
             priority
           />
         </div>
 
-        {/* Shading Atas: Tebal solid di ujung tepi tanpa terlalu lebar */}
-        <div className="absolute inset-x-0 top-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-b from-slate-100 from-25% via-slate-100/90 via-55% to-transparent z-[1]" />
+        {/* Shading Atas: Menyatu mulus dengan section sebelumnya */}
+        <div className="absolute inset-x-0 top-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-b from-slate-100 from-20% via-slate-100/90 to-transparent z-[1]" />
 
-        {/* Shading Bawah: Tebal solid di ujung tepi tanpa terlalu lebar */}
-        <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-t from-slate-100 from-25% via-slate-100/90 via-55% to-transparent z-[1]" />
+        {/* Shading Bawah: Menyatu mulus dengan banner statistik di bawahnya */}
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 lg:h-36 bg-gradient-to-t from-slate-100 from-25% via-slate-100/90 to-transparent z-[1]" />
 
-        {/* Shading Kanan: Membaur anggun ke latar abu-abu teks di sebelah kanan secara proporsional */}
-        <div className="absolute inset-y-0 right-0 w-20 sm:w-28 lg:w-32 bg-gradient-to-r from-transparent via-slate-100/80 to-slate-100 z-[1]" />
+        {/* Shading Kiri: Menyatu halus di tepi kiri */}
+        <div className="absolute inset-y-0 left-0 w-12 sm:w-16 lg:w-24 bg-gradient-to-r from-slate-100 via-slate-100/60 to-transparent z-[1]" />
+
+        {/* Shading Kanan: Membaur luas ke latar abu-abu teks di sebelah kanan secara elegan */}
+        <div className="absolute inset-y-0 right-0 w-32 sm:w-48 lg:w-64 bg-gradient-to-r from-transparent via-slate-100/80 to-slate-100 z-[1]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -39,15 +42,15 @@ export default function AboutSectionHome() {
           {/* Kolom Kiri: Spacer untuk memberikan ruang pandang visual bagi background foto di sebelah kiri */}
           <div className="h-[320px] sm:h-[400px] lg:h-auto lg:min-h-[460px] lg:col-span-6 pointer-events-none" />
 
-          {/* Kolom Kanan: Keterangan Tentang Kami (Latar Putih Bersih) */}
-          <div className="lg:col-span-6 space-y-6 pt-1 lg:pt-2">
+          {/* Kolom Kanan: Keterangan Tentang Kami — Rata Kanan di desktop */}
+          <div className="lg:col-span-6 space-y-6 pt-1 lg:pt-2 text-center lg:text-right">
 
-            {/* Tagline Model Garis di Kiri (Tanpa Badge & Tanpa Icon) */}
-            <div className="flex items-center gap-3">
-              <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
+            {/* Tagline Model Garis di Kanan (desktop) */}
+            <div className="flex items-center gap-3 justify-center lg:justify-end">
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy-900">
                 TENTANG KLINIK DR. SUHENDRA
               </span>
+              <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
             </div>
 
             {/* Judul Utama - Dilengkapi coretan stabilo oranye pada 'Kesehatan Anda' seperti di hero */}
@@ -70,8 +73,8 @@ export default function AboutSectionHome() {
               </p>
             </div>
 
-            {/* Tombol Selengkapnya di Bawah Paragraf */}
-            <div className="pt-2">
+            {/* Tombol Selengkapnya — rata kanan di desktop */}
+            <div className="pt-2 flex justify-center lg:justify-end">
               <Link
                 href="/tentang"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm sm:text-base font-bold text-white bg-navy-900 hover:bg-navy-950 active:scale-95 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 group"
