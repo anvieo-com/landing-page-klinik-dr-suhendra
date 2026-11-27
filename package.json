@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync-env": "bash scripts/sync-env-vercel.sh"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
