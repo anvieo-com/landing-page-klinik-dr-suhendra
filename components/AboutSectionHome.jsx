@@ -11,7 +11,7 @@ export default function AboutSectionHome() {
 
       {/* 1. Background Image Layer on Left - Menempel dari batas atas (top-0) hingga batas bawah (bottom-0) */}
       <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[49%] xl:w-[48%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full scale-[0.90] origin-center sm:origin-left">
           <Image
             src="/assets/tentang-dokter-pasien.jpg"
             alt="Dedikasi Sepenuh Hati Dokter & Pasien Klinik dr. Suhendra"
