@@ -33,10 +33,10 @@ export default function TentangPage() {
       <HeaderTopBar />
       <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
 
-      {/* Hero Page Header - Tinggi kembali proporsional & natural seperti semula */}
-      <section className="relative bg-white border-b border-slate-100 overflow-hidden py-10 sm:py-12 lg:py-14 flex items-center">
+      {/* Hero Page Header - Tinggi besar proporsional seperti semula */}
+      <section className="relative bg-white border-b border-slate-100 overflow-hidden py-20 sm:py-24 lg:py-32 flex items-center">
         {/* 1. Background Image Layer on Left - /assets/gambar4.png */}
-        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[48%] xl:w-[46%] h-[240px] sm:h-[300px] lg:h-full overflow-hidden z-0 pointer-events-none">
+        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[48%] xl:w-[46%] h-[340px] sm:h-[420px] lg:h-full overflow-hidden z-0 pointer-events-none">
           <div className="relative w-full h-full">
             <Image
               src="/assets/gambar4.png"
@@ -60,7 +60,7 @@ export default function TentangPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
             {/* Kolom Kiri: Spacer untuk memberikan ruang pandang visual bagi foto di sebelah kiri */}
-            <div className="h-[200px] sm:h-[240px] lg:h-auto lg:col-span-5 pointer-events-none" />
+            <div className="h-[280px] sm:h-[360px] lg:h-auto lg:col-span-5 pointer-events-none" />
 
             {/* Kolom Kanan: Teks Judul & Keterangan */}
             <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
