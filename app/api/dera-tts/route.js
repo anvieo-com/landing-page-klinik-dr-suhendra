@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const EDGE_TTS_URL = process.env.EDGE_TTS_URL;
-const EDGE_TTS_API_KEY = process.env.EDGE_TTS_API_KEY;
+export const dynamic = 'force-dynamic';
 
 export async function POST(req) {
   try {
@@ -10,6 +9,9 @@ export async function POST(req) {
     if (!text || typeof text !== 'string' || !text.trim()) {
       return NextResponse.json({ error: 'Teks tidak boleh kosong', fallback: true }, { status: 400 });
     }
+
+    const EDGE_TTS_URL = process.env.EDGE_TTS_URL || 'https://iss-uitjbt.inovasiuitjbt.uk/edge-tts/v1/audio/speech';
+    const EDGE_TTS_API_KEY = process.env.EDGE_TTS_API_KEY || 'garda_secret_123';
 
     // Bersihkan karakter LaTeX, markdown, emoji, dan simbol agar TTS membaca lancar dan alami
     const sanitizedText = String(text)
@@ -54,6 +56,7 @@ export async function POST(req) {
           'Content-Type': 'application/json',
           'Accept': 'audio/mpeg, application/json',
           'Authorization': `Bearer ${EDGE_TTS_API_KEY}`,
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         },
         body: JSON.stringify(payload),
         signal: controller.signal,

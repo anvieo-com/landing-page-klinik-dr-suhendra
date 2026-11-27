@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const GARDA_API_URL = process.env.GARDA_API_URL;
-const GARDA_AUTH_KEY = process.env.GARDA_AUTH_KEY;
-const GARDA_MODEL = process.env.GARDA_MODEL || 'gemma4:e4b';
+export const dynamic = 'force-dynamic';
 
 const DERA_SYSTEM_PROMPT = `Anda adalah Dera AI, Asisten Kesehatan Keluarga resmi dari Klinik dr. Suhendra (Bogor Barat).
 
@@ -62,11 +60,15 @@ export async function POST(req) {
       );
     }
 
+    const GARDA_API_URL = process.env.GARDA_API_URL || 'https://iss-uitjbt.inovasiuitjbt.uk/garda-api/v1/chat/completions';
+    const GARDA_AUTH_KEY = process.env.GARDA_AUTH_KEY || 'sk-garda-30f8204c5747651c99dce89d';
+    const GARDA_MODEL = process.env.GARDA_MODEL || 'gemma4:e4b';
+
     const sessionId = session_id || `dera-session-${Date.now()}`;
 
-    // Siapkan controller timeout 15 detik untuk upstream AI
+    // Siapkan controller timeout 25 detik untuk upstream AI
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 25000);
 
     try {
       const response = await fetch(GARDA_API_URL, {
@@ -74,6 +76,7 @@ export async function POST(req) {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': GARDA_AUTH_KEY,
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         },
         body: JSON.stringify({
           model: GARDA_MODEL,
