@@ -7,9 +7,9 @@ import { ArrowRight } from 'lucide-react';
 
 export default function AboutSectionHome() {
   return (
-    <section id="tentang" className="relative bg-white border-b border-slate-100 overflow-hidden py-16 lg:py-24">
+    <section id="tentang" className="relative bg-slate-100 border-b border-slate-200/80 overflow-hidden py-16 lg:py-24">
 
-      {/* 1. Background Image Layer on Left - Menempel dari batas atas (top-0) hingga batas bawah (bottom-0) tanpa shading bawah */}
+      {/* 1. Background Image Layer on Left - Menempel dari batas atas (top-0) hingga batas bawah (bottom-0) */}
       <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[56%] xl:w-[53%] h-[380px] sm:h-[440px] lg:h-full overflow-hidden z-0 pointer-events-none">
         <div className="relative w-full h-full">
           <Image
@@ -21,8 +21,11 @@ export default function AboutSectionHome() {
           />
         </div>
 
-        {/* Shading Kanan: Membaur anggun ke latar putih teks di sebelah kanan */}
-        <div className="absolute inset-y-0 right-0 w-28 sm:w-36 lg:w-48 bg-gradient-to-r from-transparent via-white/80 via-40% to-white z-[1]" />
+        {/* Shading Kanan: Membaur anggun ke latar abu-abu teks di sebelah kanan */}
+        <div className="absolute inset-y-0 right-0 w-28 sm:w-36 lg:w-48 bg-gradient-to-r from-transparent via-slate-100/80 via-40% to-slate-100 z-[1]" />
+
+        {/* Shading Bawah (khusus mobile saat gambar di atas teks) */}
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 lg:hidden bg-gradient-to-t from-slate-100 via-slate-100/80 to-transparent z-[1]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

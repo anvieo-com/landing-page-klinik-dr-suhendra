@@ -12,7 +12,7 @@ export default function HeroSection({ onOpenBooking }) {
   return (
     <section
       id="hero"
-      className="relative bg-white overflow-hidden flex items-center min-h-[560px] lg:h-[calc(100vh-112px)] lg:max-h-[720px]"
+      className="relative bg-slate-100 overflow-hidden flex items-center min-h-[560px] lg:h-[calc(100vh-112px)] lg:max-h-[720px]"
     >
       {/* 1. Full Background Image Layer - Disimpan langsung di div paling atas background tanpa scale bertingkat agar top tidak terpotong */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
@@ -25,13 +25,24 @@ export default function HeroSection({ onOpenBooking }) {
         />
 
         {/* Shading Atas: Lembut agar batas atas foto menyatu mulus dengan header */}
-        <div className="absolute inset-x-0 top-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-b from-white via-white/70 to-transparent z-[1]" />
+        <div className="absolute inset-x-0 top-0 h-20 sm:h-24 lg:h-28 bg-gradient-to-b from-slate-100 via-slate-100/80 to-transparent z-[1]" />
 
-        {/* Shading Kiri: Melindungi teks agar tetap kontras & tajam */}
-        <div className="absolute inset-y-0 left-0 w-full sm:w-4/5 lg:w-[54%] bg-gradient-to-r from-white via-white/90 to-transparent z-[1]" />
+        {/* Shading Kiri: Melindungi teks agar tetap kontras & tajam pada latar abu-abu */}
+        <div className="absolute inset-y-0 left-0 w-full sm:w-4/5 lg:w-[56%] bg-gradient-to-r from-slate-100 via-slate-100/95 via-50% to-transparent z-[1]" />
 
-        {/* Shading Bawah: Halus di perbatasan dasar hero */}
-        <div className="absolute inset-x-0 bottom-0 h-4 sm:h-6 bg-gradient-to-t from-white/40 to-transparent z-[1]" />
+        {/* Shading Kanan: Lembut di tepi kanan layar */}
+        <div className="absolute inset-y-0 right-0 w-16 sm:w-28 lg:w-36 bg-gradient-to-l from-slate-100 via-slate-100/60 to-transparent z-[1]" />
+
+        {/* Shading Bawah Penuh: Transisi mulus ke section di bawahnya */}
+        <div className="absolute inset-x-0 bottom-0 h-28 sm:h-36 lg:h-44 bg-gradient-to-t from-slate-100 via-slate-100/85 to-transparent z-[1]" />
+
+        {/* Shading Kanan Bawah: Tebal sesuai permintaan user untuk membaurkan foto ke latar abu-abu secara mulus */}
+        <div 
+          className="absolute bottom-0 right-0 w-[380px] sm:w-[520px] lg:w-[720px] h-64 sm:h-80 lg:h-96 z-[2] pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 100% 100%, rgba(226, 232, 240, 0.95) 0%, rgba(241, 245, 249, 0.88) 35%, rgba(241, 245, 249, 0.45) 65%, transparent 100%)'
+          }}
+        />
       </div>
 
       {/* 3. Hero Content Container - Kolom tulisan dilebarkan sedikit ke kanan */}
