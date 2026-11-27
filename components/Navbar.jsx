@@ -52,11 +52,11 @@ export default function Navbar({ onOpenBooking }) {
               />
             </div>
             <div className="flex flex-col justify-center leading-none">
-              <span className="font-extrabold text-base sm:text-lg text-navy-950 tracking-tight leading-tight m-0 p-0">
+              <span className="font-extrabold text-base sm:text-lg text-navy-950 tracking-tight leading-tight m-0 p-0 whitespace-nowrap">
                 KLINIK dr. SUHENDRA
               </span>
-              <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase tracking-wider leading-tight m-0 p-0 -mt-0.5">
-                KESEHATAN KELUARGA ANDA
+              <span className="text-[7.5px] sm:text-[8.8px] font-semibold text-slate-500 uppercase tracking-[0.04em] sm:tracking-[0.05em] leading-tight m-0 p-0 -mt-0.5 whitespace-nowrap">
+                Kepuasan Anda Kebahagiaan Kami
               </span>
             </div>
           </Link>
