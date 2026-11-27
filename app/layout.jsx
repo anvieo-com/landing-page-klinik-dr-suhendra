@@ -1,6 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
+import NavigationLoader from '@/components/NavigationLoader';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -157,6 +158,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id" className={`scroll-smooth ${inter.variable}`}>
       <body className={`${inter.className} bg-white text-slate-800 antialiased selection:bg-navy-900 selection:text-white`}>
+        <NavigationLoader />
         {children}
         <Script
           id="structured-data-clinic"

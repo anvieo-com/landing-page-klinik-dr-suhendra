@@ -71,6 +71,7 @@ export default function Navbar({ onOpenBooking }) {
                 <Link
                   key={link.name}
                   href={link.href}
+                  prefetch={true}
                   className={`px-4 py-2 text-sm font-bold rounded-xl transition-all ${
                     isOtherActive
                       ? 'text-white bg-navy-900 shadow-sm'
@@ -116,6 +117,7 @@ export default function Navbar({ onOpenBooking }) {
                 <Link
                   key={link.name}
                   href={link.href}
+                  prefetch={true}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center justify-between px-3.5 py-2.5 text-sm font-bold rounded-xl transition-colors ${
                     isOtherActive
