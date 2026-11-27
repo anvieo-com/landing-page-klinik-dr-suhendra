@@ -78,66 +78,56 @@ body {
 }
 
 /* Slime Organic Morph & Waves for Dera AI */
-@keyframes slimeMorph {
-  0%, 100% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    transform: scale(1) translateY(0);
-  }
-  34% {
-    border-radius: 40% 60% 55% 45% / 50% 60% 40% 50%;
-    transform: scale(1.02, 0.98) translateY(-2px);
-  }
-  67% {
-    border-radius: 50% 50% 40% 60% / 40% 45% 55% 60%;
-    transform: scale(0.98, 1.02) translateY(1px);
-  }
-}
-
-.animate-slime-morph {
-  animation: slimeMorph 6s ease-in-out infinite;
-}
-
 @keyframes waveLayer1 {
-  0%, 100% {
-    border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%;
-    transform: rotate(0deg) scale(1.18);
+  0% {
+    border-radius: 48% 52% 56% 44% / 54% 46% 54% 46%;
+    transform: rotate(0deg) scale(1.08);
   }
   50% {
-    border-radius: 55% 45% 40% 60% / 45% 55% 45% 55%;
-    transform: rotate(180deg) scale(1.26);
+    border-radius: 54% 46% 48% 52% / 46% 54% 48% 52%;
+    transform: rotate(180deg) scale(1.14);
+  }
+  100% {
+    border-radius: 48% 52% 56% 44% / 54% 46% 54% 46%;
+    transform: rotate(360deg) scale(1.08);
   }
 }
 
 .animate-wave-layer1 {
-  animation: waveLayer1 8s ease-in-out infinite;
+  animation: waveLayer1 6s ease-in-out infinite;
 }
 
 @keyframes waveLayer2 {
-  0%, 100% {
-    border-radius: 50% 50% 45% 55% / 55% 45% 50% 50%;
-    transform: rotate(360deg) scale(1.36);
+  0% {
+    border-radius: 52% 48% 44% 56% / 46% 54% 46% 54%;
+    transform: rotate(360deg) scale(1.13);
   }
   50% {
-    border-radius: 40% 60% 55% 45% / 45% 55% 40% 60%;
-    transform: rotate(180deg) scale(1.48);
+    border-radius: 46% 54% 52% 48% / 54% 46% 52% 48%;
+    transform: rotate(180deg) scale(1.07);
+  }
+  100% {
+    border-radius: 52% 48% 44% 56% / 46% 54% 46% 54%;
+    transform: rotate(0deg) scale(1.13);
   }
 }
 
 .animate-wave-layer2 {
-  animation: waveLayer2 12s linear infinite;
+  animation: waveLayer2 8s ease-in-out infinite;
 }
 
 @keyframes slimeBlink {
-  0%, 92%, 100% {
+  0%, 90%, 100% {
     transform: scaleY(1);
   }
   95% {
-    transform: scaleY(0.12);
+    transform: scaleY(0.1);
   }
 }
 
 .animate-slime-blink {
-  animation: slimeBlink 3.8s ease-in-out infinite;
+  animation: slimeBlink 3.5s ease-in-out infinite;
+  transform-origin: center;
 }
 
 /* Subtle cross pattern background for banners */
