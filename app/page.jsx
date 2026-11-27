@@ -7,7 +7,7 @@ import HeroSection from '@/components/HeroSection';
 import AboutSectionHome from '@/components/AboutSectionHome';
 import ClinicHighlightsSection from '@/components/ClinicHighlightsSection';
 import ServicesSection from '@/components/ServicesSection';
-import QuickStatsDarkBanner from '@/components/QuickStatsDarkBanner';
+import QuickStatsHeroBar from '@/components/QuickStatsHeroBar';
 import DoctorScheduleSection from '@/components/DoctorScheduleSection';
 import VideoSpotlight from '@/components/VideoSpotlight';
 import TestimonialsSection from '@/components/TestimonialsSection';
@@ -57,8 +57,8 @@ export default function HomePage() {
       {/* 3. Hero Section (Fit Height & Doctor Anchored directly to Bottom with No Box & No Bottom Border) */}
       <HeroSection onOpenBooking={() => handleOpenBooking()} />
 
-      {/* 4. Signature Dark Navy Stats Banner (25.000+ Pasien, 20+ Dokter, 30+ Kamar, 10+ Tahun) */}
-      <QuickStatsDarkBanner />
+      {/* 4. Quick Stats White Pill Bar (25.000+ Pasien, 20+ Dokter, 6 Cabang, 99% Kepuasan) */}
+      <QuickStatsHeroBar />
 
       {/* 5. Section Tentang Kami (Gambar di Kiri, Keterangan di Kanan) */}
       <AboutSectionHome onOpenBooking={() => handleOpenBooking()} />
