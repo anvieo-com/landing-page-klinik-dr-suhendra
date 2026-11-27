@@ -63,7 +63,7 @@ export default function VideoSpotlight() {
                 src="/assets/clinic-video.mp4"
                 poster="/assets/clinic-video-poster.jpg"
                 playsInline
-                preload="metadata"
+                preload="none"
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 className="w-full h-full object-cover cursor-pointer select-none"
