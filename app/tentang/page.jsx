@@ -112,7 +112,7 @@ export default function TentangPage() {
 
               <div className="grid grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-                  <p className="text-2xl font-black text-navy-950">500.000+</p>
+                  <p className="text-2xl font-black text-navy-950">50k+</p>
                   <p className="text-xs text-slate-500 font-medium mt-1">Pasien telah kami layani</p>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">

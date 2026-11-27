@@ -8,7 +8,7 @@ export const clinicInfo = {
   whatsapp: "6282311188250",
   operationalHours: "Buka 24 Jam Setiap Hari (Termasuk Hari Libur)",
   mainBranch: "Bojong Jengkol, Bogor",
-  totalPatients: "500.000+",
+  totalPatients: "50k+",
   totalDoctors: "20+",
   totalBranches: "6",
   satisfactionRate: "99%",

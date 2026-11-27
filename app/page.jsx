@@ -52,7 +52,7 @@ export default function HomePage() {
       {/* 3. Hero Section (Fit Height & Doctor Anchored directly to Bottom with No Box & No Bottom Border) */}
       <HeroSection onOpenBooking={() => handleOpenBooking()} />
 
-      {/* 4. Quick Stats White Pill Bar (25.000+ Pasien, 20+ Dokter, 6 Cabang, 99% Kepuasan) */}
+      {/* 4. Quick Stats White Pill Bar (50k+ Pasien, 20+ Dokter, 6 Cabang, 99% Kepuasan) */}
       <QuickStatsHeroBar />
 
       {/* 5. Section Tentang Kami (Gambar di Kiri, Keterangan di Kanan) */}

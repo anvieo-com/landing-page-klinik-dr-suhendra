@@ -7,7 +7,7 @@ export default function QuickStatsDarkBanner() {
   const stats = [
     {
       icon: Users,
-      value: "500.000+",
+      value: "50k+",
       label: "Pasien Terlayani",
       desc: "Kepercayaan keluarga di seluruh wilayah Bogor"
     },

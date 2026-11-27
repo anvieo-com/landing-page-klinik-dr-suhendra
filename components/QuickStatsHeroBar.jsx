@@ -7,7 +7,7 @@ export default function QuickStatsHeroBar() {
   const stats = [
     {
       icon: Users,
-      value: "25.000+",
+      value: "50k+",
       label: "Pasien Terlayani"
     },
     {
