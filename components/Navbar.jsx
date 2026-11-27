@@ -20,6 +20,8 @@ export default function Navbar({ onOpenBooking }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isHomePage = pathname === '/';
+
   const navLinks = [
     { name: 'Beranda', href: '/' },
     { name: 'Tentang', href: '/tentang' },
@@ -31,8 +33,10 @@ export default function Navbar({ onOpenBooking }) {
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200' 
-        : 'bg-white border-b-0'
+        ? 'bg-white/80 backdrop-blur-xl shadow-sm border-b border-slate-200/60' 
+        : isHomePage
+          ? 'bg-slate-100 border-b border-transparent'
+          : 'bg-white border-b border-slate-100'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
@@ -103,7 +107,9 @@ export default function Navbar({ onOpenBooking }) {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 shadow-xl animate-in slide-in-from-top-2">
+        <div className={`lg:hidden border-b border-slate-200/60 px-4 pt-2 pb-6 space-y-2 shadow-xl animate-in slide-in-from-top-2 ${
+          isScrolled ? 'bg-white/90 backdrop-blur-xl' : isHomePage ? 'bg-slate-100' : 'bg-white'
+        }`}>
           <div className="py-2 space-y-1">
             {navLinks.map((link) => {
               const isOtherActive = link.href !== '/' && (pathname === link.href || pathname?.startsWith(link.href));
