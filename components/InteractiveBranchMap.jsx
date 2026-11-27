@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import { 
   MapPin, 
@@ -10,29 +10,93 @@ import {
   X, 
   Calendar, 
   Stethoscope, 
-  Bed, 
-  Activity, 
-  CheckCircle2, 
   ChevronRight,
-  ExternalLink,
-  Cross
+  Crosshair,
+  Route,
+  Compass
 } from 'lucide-react';
 import { branches } from '@/data/clinicData';
 import 'leaflet/dist/leaflet.css';
 
+// Haversine distance calculator in kilometers
+function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth radius in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return parseFloat((R * c).toFixed(1));
+}
+
 export default function InteractiveBranchMap({ onOpenBooking }) {
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]); // Default open Bojong Jengkol
+  // User coordinates: default around Bogor Dramaga/City Center, updated by Geolocation
+  const [userLocation, setUserLocation] = useState({ 
+    lat: -6.595, 
+    lng: 106.745, 
+    isDetected: false 
+  });
+  const [selectedBranch, setSelectedBranch] = useState(branches[0]); // Default Bojong Jengkol
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [showRoute, setShowRoute] = useState(true);
+
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
+  const leafletModuleRef = useRef(null);
   const markersRef = useRef({});
+  const userMarkerRef = useRef(null);
+  const routeLineRef = useRef(null);
 
+  // Compute branches sorted by distance to user
+  const branchesWithDistance = useMemo(() => {
+    return branches.map((b) => ({
+      ...b,
+      distance: calculateDistanceKm(userLocation.lat, userLocation.lng, b.lat, b.lng),
+    })).sort((a, b) => a.distance - b.distance);
+  }, [userLocation]);
+
+  const nearestBranch = branchesWithDistance[0];
+
+  // Geolocation detector
+  const detectUserLocation = () => {
+    if (typeof window !== 'undefined' && 'geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const loc = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+            isDetected: true
+          };
+          setUserLocation(loc);
+
+          if (mapInstanceRef.current && userMarkerRef.current) {
+            userMarkerRef.current.setLatLng([loc.lat, loc.lng]);
+            mapInstanceRef.current.flyTo([loc.lat, loc.lng], 13, { duration: 1.0 });
+          }
+        },
+        (err) => {
+          console.warn("Geolocation denied/unavailable, keeping default Bogor location:", err.message);
+        },
+        { enableHighAccuracy: true, timeout: 6000 }
+      );
+    }
+  };
+
+  // Initialize Map
   useEffect(() => {
     let isMounted = true;
+
+    // Detect real location once on load
+    detectUserLocation();
 
     // Dynamically import Leaflet on client side
     import('leaflet').then((L) => {
       if (!isMounted || !mapContainerRef.current) return;
+      leafletModuleRef.current = L;
 
       // Ensure Leaflet uses local assets without querying external CDNs
       delete L.Icon.Default.prototype._getIconUrl;
@@ -47,21 +111,53 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
         mapInstanceRef.current.remove();
       }
 
-      // Initialize Map
+      // Initialize Map with zoom control disabled at top-left
       const map = L.map(mapContainerRef.current, {
         center: [-6.575, 106.69],
         zoom: 12,
         scrollWheelZoom: false,
-        zoomControl: true,
+        zoomControl: false, // Turned off default top-left
       });
 
       mapInstanceRef.current = map;
+
+      // Pindahkan tombol zoom in / zoom out ke KIRI BAWAH sesuai permintaan
+      L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
       // Add OpenStreetMap Tile Layer
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
+
+      // User Location Marker: Lingkaran Biru dengan Efek Radar
+      const userRadarIcon = L.divIcon({
+        className: 'custom-user-radar-marker',
+        html: `
+          <div class="relative flex items-center justify-center" style="width: 44px; height: 44px; transform: translate(-50%, -50%);">
+            <span class="absolute w-11 h-11 rounded-full bg-blue-500/30 animate-ping"></span>
+            <span class="absolute w-7 h-7 rounded-full bg-blue-400/50 animate-pulse"></span>
+            <span class="relative w-4 h-4 rounded-full bg-blue-600 border-2 border-white shadow-xl flex items-center justify-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+            </span>
+          </div>
+        `,
+        iconSize: [44, 44],
+        iconAnchor: [22, 22]
+      });
+
+      const userMarker = L.marker([userLocation.lat, userLocation.lng], { 
+        icon: userRadarIcon,
+        zIndexOffset: 1000 
+      }).addTo(map);
+
+      userMarker.bindTooltip('<div class="font-bold text-xs text-navy-950">📍 Lokasi Anda</div>', { 
+        permanent: false, 
+        direction: 'top',
+        className: 'rounded-lg shadow-md border border-slate-200'
+      });
+
+      userMarkerRef.current = userMarker;
 
       // Create Custom SVG DivIcon for each branch
       branches.forEach((b) => {
@@ -97,9 +193,10 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
         markersRef.current[b.id] = marker;
       });
 
-      // Fit bounds if needed to show all branches
-      const group = new L.featureGroup(Object.values(markersRef.current));
-      map.fitBounds(group.getBounds().pad(0.15));
+      // Fit bounds to show all branches and user location
+      const allMarkers = [...Object.values(markersRef.current), userMarker];
+      const group = new L.featureGroup(allMarkers);
+      map.fitBounds(group.getBounds().pad(0.12));
 
     }).catch((err) => {
       console.error("Leaflet load error:", err);
@@ -114,7 +211,41 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
     };
   }, []);
 
-  // Pan to selected branch when selected from button/marker
+  // Update User Marker position when userLocation changes
+  useEffect(() => {
+    if (userMarkerRef.current && userLocation) {
+      userMarkerRef.current.setLatLng([userLocation.lat, userLocation.lng]);
+    }
+  }, [userLocation]);
+
+  // Update Route Polyline whenever selectedBranch or userLocation or showRoute changes
+  useEffect(() => {
+    if (!mapInstanceRef.current || !leafletModuleRef.current || !selectedBranch || !userLocation) return;
+    const L = leafletModuleRef.current;
+
+    // Clear existing route
+    if (routeLineRef.current) {
+      mapInstanceRef.current.removeLayer(routeLineRef.current);
+      routeLineRef.current = null;
+    }
+
+    if (showRoute) {
+      const polyline = L.polyline([
+        [userLocation.lat, userLocation.lng],
+        [selectedBranch.lat, selectedBranch.lng]
+      ], {
+        color: '#2563eb',
+        weight: 3.5,
+        opacity: 0.85,
+        dashArray: '8, 8',
+        lineCap: 'round'
+      }).addTo(mapInstanceRef.current);
+
+      routeLineRef.current = polyline;
+    }
+  }, [selectedBranch, userLocation, showRoute]);
+
+  // Handle selecting a branch
   const handleSelectBranch = (b) => {
     setSelectedBranch(b);
     setIsDrawerOpen(true);
@@ -122,6 +253,23 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
       mapInstanceRef.current.flyTo([b.lat, b.lng], 14, { duration: 1.0 });
     }
   };
+
+  // Focus bounds to see both user and current branch route
+  const handleFitRouteBounds = () => {
+    if (!mapInstanceRef.current || !leafletModuleRef.current || !selectedBranch) return;
+    const L = leafletModuleRef.current;
+    const bounds = L.latLngBounds([
+      [userLocation.lat, userLocation.lng],
+      [selectedBranch.lat, selectedBranch.lng]
+    ]);
+    mapInstanceRef.current.fitBounds(bounds, { padding: [60, 60], duration: 1.0 });
+  };
+
+  // Distance of currently selected branch
+  const currentBranchDistance = useMemo(() => {
+    if (!selectedBranch) return null;
+    return calculateDistanceKm(userLocation.lat, userLocation.lng, selectedBranch.lat, selectedBranch.lng);
+  }, [userLocation, selectedBranch]);
 
   return (
     <div className="relative w-full h-[620px] sm:h-[680px] lg:h-[720px] overflow-hidden bg-slate-100">
@@ -133,26 +281,82 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
         style={{ width: '100%', height: '100%' }}
       />
 
-      {/* 2. Floating Branch Quick Selector Tabs (Top Left Pill Bar) */}
-      <div className="absolute top-4 left-4 right-4 sm:right-auto z-[400] max-w-full overflow-x-auto no-scrollbar pb-1">
-        <div className="inline-flex items-center gap-1.5 p-1.5 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200/90">
-          {branches.map((b) => {
-            const isActive = selectedBranch && selectedBranch.id === b.id;
-            return (
-              <button
-                key={b.id}
-                onClick={() => handleSelectBranch(b)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 flex-shrink-0 ${
-                  isActive
-                    ? 'bg-navy-900 text-white shadow-sm ring-2 ring-blue-500/40'
-                    : 'bg-transparent text-slate-700 hover:bg-slate-100 hover:text-navy-950'
-                }`}
-              >
-                <MapPin className={`w-3.5 h-3.5 ${isActive ? 'text-amber-400' : 'text-blue-600'}`} strokeWidth={2} />
-                <span>{b.shortName}</span>
-              </button>
-            );
-          })}
+      {/* 2. Floating Rute & Lokasi Saya Controller (Top Left) */}
+      <div className="absolute top-4 left-4 z-[400] flex flex-col gap-2 max-w-[280px] sm:max-w-[340px]">
+        {/* Panel Lokasi Pengguna & Cabang Terdekat */}
+        <div className="p-3 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200/90 text-left space-y-2">
+          <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
+              </span>
+              <span className="text-xs font-black text-navy-950">
+                {userLocation.isDetected ? 'Lokasi Anda Terdeteksi' : 'Titik Referensi Anda'}
+              </span>
+            </div>
+
+            <button
+              onClick={detectUserLocation}
+              className="p-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-navy-950 transition-colors"
+              title="Perbarui / Deteksi Ulang Lokasi Saya"
+            >
+              <Crosshair className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Info Cabang Terdekat */}
+          {nearestBranch && (
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-slate-500 font-semibold">Cabang Terdekat:</span>
+                <span className="font-extrabold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100">
+                  {nearestBranch.distance} km
+                </span>
+              </div>
+              <p className="text-xs font-bold text-navy-950 truncate">
+                {nearestBranch.name}
+              </p>
+              
+              <div className="flex items-center gap-1.5 pt-1">
+                <button
+                  onClick={() => handleSelectBranch(nearestBranch)}
+                  className="flex-1 py-1.5 px-2.5 rounded-xl bg-navy-900 text-white text-[11px] font-bold hover:bg-navy-950 transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  <Route className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Rute Terdekat</span>
+                </button>
+                <button
+                  onClick={handleFitRouteBounds}
+                  className="py-1.5 px-2.5 rounded-xl bg-slate-100 text-slate-700 text-[11px] font-bold hover:bg-slate-200 transition-all flex items-center justify-center"
+                  title="Lihat Rentang Rute Penuh"
+                >
+                  <Compass className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Opsi Pilih Arah Rute ke Cabang Lainnya */}
+          <div className="pt-1 border-t border-slate-100">
+            <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block mb-1">
+              Pilihan Rute ke Cabang Lain:
+            </label>
+            <select
+              value={selectedBranch ? selectedBranch.id : ''}
+              onChange={(e) => {
+                const b = branches.find(item => item.id === e.target.value);
+                if (b) handleSelectBranch(b);
+              }}
+              className="w-full text-xs font-semibold py-1.5 px-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+            >
+              {branchesWithDistance.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.shortName} ({b.distance} km)
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -208,6 +412,33 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
           {/* Scrollable Content Body */}
           <div className="flex-1 p-5 overflow-y-auto space-y-4 text-left">
             
+            {/* Rute & Estimasi Jarak dari Lokasi Saya */}
+            {currentBranchDistance !== null && (
+              <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200/80 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
+                    <Route className="w-4 h-4 text-amber-300" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-blue-600 tracking-wider block">
+                      Estimasi Rute dari Posisi Anda
+                    </span>
+                    <span className="text-xs font-black text-navy-950">
+                      Jarak: {currentBranchDistance} km
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleFitRouteBounds}
+                  className="px-3 py-1.5 rounded-xl bg-white border border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1"
+                >
+                  <Compass className="w-3.5 h-3.5" />
+                  <span>Lihat Rute</span>
+                </button>
+              </div>
+            )}
+
             {/* Description */}
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {selectedBranch.desc}
@@ -243,41 +474,6 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
               </div>
             </div>
 
-            {/* Facilities Badges */}
-            <div>
-              <h4 className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">
-                Fasilitas & Layanan Unggulan:
-              </h4>
-              <div className="flex flex-wrap gap-1.5">
-                {selectedBranch.hasUGD && (
-                  <span className="px-2.5 py-1 bg-red-50 text-red-700 text-[11px] font-bold rounded-lg border border-red-200">
-                    IGD 24 Jam
-                  </span>
-                )}
-                {selectedBranch.hasRanap && (
-                  <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-[11px] font-bold rounded-lg border border-blue-200">
-                    Rawat Inap
-                  </span>
-                )}
-                {selectedBranch.hasLab && (
-                  <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-[11px] font-bold rounded-lg border border-emerald-200">
-                    Laboratorium Darah
-                  </span>
-                )}
-                {selectedBranch.hasGigi && (
-                  <span className="px-2.5 py-1 bg-purple-50 text-purple-700 text-[11px] font-bold rounded-lg border border-purple-200">
-                    Poli Gigi & Mulut
-                  </span>
-                )}
-                <span className="px-2.5 py-1 bg-slate-100 text-slate-700 text-[11px] font-bold rounded-lg border border-slate-200">
-                  Poli Umum
-                </span>
-                <span className="px-2.5 py-1 bg-slate-100 text-slate-700 text-[11px] font-bold rounded-lg border border-slate-200">
-                  Apotek BPOM
-                </span>
-              </div>
-            </div>
-
             {/* Dokter Jaga Cabang Ini */}
             {selectedBranch.doctors && selectedBranch.doctors.length > 0 && (
               <div className="pt-1">
@@ -304,22 +500,12 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
 
           {/* Sticky Drawer Footer Action Buttons */}
           <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col gap-2 flex-shrink-0">
-            <a
-              href={selectedBranch.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-navy-900 hover:bg-navy-950 shadow-sm transition-all"
-            >
-              <Navigation className="w-4 h-4 text-amber-400" />
-              <span>Buka Petunjuk Arah (Google Maps)</span>
-            </a>
-
             {onOpenBooking && (
               <button
                 onClick={() => onOpenBooking(selectedBranch)}
-                className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-navy-950 bg-white hover:bg-slate-100 border border-slate-200 transition-all"
+                className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-white bg-navy-900 hover:bg-navy-950 shadow-sm transition-all"
               >
-                <Calendar className="w-4 h-4 text-navy-900" />
+                <Calendar className="w-4 h-4 text-amber-400" />
                 <span>Daftar Antrean di Cabang Ini</span>
               </button>
             )}
