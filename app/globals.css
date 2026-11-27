@@ -80,40 +80,56 @@ body {
 /* Slime Organic Morph & Waves for Dera AI */
 @keyframes waveLayer1 {
   0% {
-    border-radius: 48% 52% 56% 44% / 54% 46% 54% 46%;
-    transform: rotate(0deg) scale(1.08);
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: rotate(0deg) scale(1.15);
+  }
+  25% {
+    border-radius: 70% 30% 52% 48% / 32% 65% 35% 68%;
+    transform: rotate(90deg) scale(1.22);
   }
   50% {
-    border-radius: 54% 46% 48% 52% / 46% 54% 48% 52%;
-    transform: rotate(180deg) scale(1.14);
+    border-radius: 32% 68% 62% 38% / 58% 42% 65% 35%;
+    transform: rotate(180deg) scale(1.16);
+  }
+  75% {
+    border-radius: 65% 35% 38% 62% / 40% 68% 32% 60%;
+    transform: rotate(270deg) scale(1.20);
   }
   100% {
-    border-radius: 48% 52% 56% 44% / 54% 46% 54% 46%;
-    transform: rotate(360deg) scale(1.08);
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: rotate(360deg) scale(1.15);
   }
 }
 
 .animate-wave-layer1 {
-  animation: waveLayer1 6s ease-in-out infinite;
+  animation: waveLayer1 7s linear infinite;
 }
 
 @keyframes waveLayer2 {
   0% {
-    border-radius: 52% 48% 44% 56% / 46% 54% 46% 54%;
-    transform: rotate(360deg) scale(1.13);
+    border-radius: 62% 38% 35% 65% / 60% 32% 68% 40%;
+    transform: rotate(360deg) scale(1.18);
+  }
+  25% {
+    border-radius: 38% 62% 65% 35% / 42% 68% 32% 58%;
+    transform: rotate(270deg) scale(1.14);
   }
   50% {
-    border-radius: 46% 54% 52% 48% / 54% 46% 52% 48%;
-    transform: rotate(180deg) scale(1.07);
+    border-radius: 55% 45% 32% 68% / 68% 35% 65% 32%;
+    transform: rotate(180deg) scale(1.22);
+  }
+  75% {
+    border-radius: 32% 68% 58% 42% / 35% 62% 38% 65%;
+    transform: rotate(90deg) scale(1.15);
   }
   100% {
-    border-radius: 52% 48% 44% 56% / 46% 54% 46% 54%;
-    transform: rotate(0deg) scale(1.13);
+    border-radius: 62% 38% 35% 65% / 60% 32% 68% 40%;
+    transform: rotate(0deg) scale(1.18);
   }
 }
 
 .animate-wave-layer2 {
-  animation: waveLayer2 8s ease-in-out infinite;
+  animation: waveLayer2 9s linear infinite;
 }
 
 @keyframes slimeBlink {

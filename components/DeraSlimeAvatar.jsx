@@ -90,20 +90,20 @@ export default function DeraSlimeAvatar({
       title="Dera AI — Asisten Kesehatan Keluarga Klinik dr. Suhendra"
     >
       {/* =========================================================
-          GELOMBANG 2 (Ukuran sama persis, arah berlawanan, warna biru pekat ~40%)
+          GELOMBANG 2 (Ukuran sama persis, arah berlawanan, transparant biru doff ~35%)
          ========================================================= */}
       <div
-        className={`absolute rounded-full bg-[#1d4ed8]/40 pointer-events-none z-0 animate-wave-layer2 transition-all duration-500 ${dimensions.wave} ${
-          isSpeaking ? 'scale-115 bg-blue-600/60' : ''
+        className={`absolute bg-[#1d4ed8]/35 pointer-events-none z-0 animate-wave-layer2 transition-all duration-300 ${dimensions.wave} ${
+          isSpeaking ? 'scale-125 bg-blue-600/55' : ''
         }`}
       />
 
       {/* =========================================================
-          GELOMBANG 1 (Ukuran sama persis, searah jarum jam, warna biru cerah tegas ~65%)
+          GELOMBANG 1 (Ukuran sama persis, searah jarum jam, transparant biru doff ~35%)
          ========================================================= */}
       <div
-        className={`absolute rounded-full bg-[#2563eb]/65 pointer-events-none z-0 animate-wave-layer1 transition-all duration-500 ${dimensions.wave} ${
-          isSpeaking ? 'scale-110 bg-blue-500/75' : ''
+        className={`absolute bg-[#2563eb]/35 pointer-events-none z-0 animate-wave-layer1 transition-all duration-300 ${dimensions.wave} ${
+          isSpeaking ? 'scale-120 bg-blue-500/55' : ''
         }`}
       />
 
