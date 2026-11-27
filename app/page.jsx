@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import AboutSectionHome from '@/components/AboutSectionHome';
 import ClinicHighlightsSection from '@/components/ClinicHighlightsSection';
+import QuickStatsDarkBanner from '@/components/QuickStatsDarkBanner';
 import ServicesSection from '@/components/ServicesSection';
 import QuickStatsHeroBar from '@/components/QuickStatsHeroBar';
 import DoctorScheduleSection from '@/components/DoctorScheduleSection';
@@ -65,6 +66,9 @@ export default function HomePage() {
 
       {/* 5.5 Section 4 Pilar Keunggulan Mandiri (Model Garis Pembatas & Icon di Atas) */}
       <ClinicHighlightsSection />
+
+      {/* Signature Dark Navy Stats Banner (Block Biru yang Sebelumnya) */}
+      <QuickStatsDarkBanner />
 
       {/* 6. Section Layanan Medis Kami (Flat Icon Saja) */}
       <ServicesSection onSelectService={(service) => setSelectedService(service)} />
