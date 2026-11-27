@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { clinicInfo } from '@/data/clinicData';
+import DeraSlimeAvatar from '@/components/DeraSlimeAvatar';
 
 export default function Navbar({ onOpenBooking }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,6 +85,32 @@ export default function Navbar({ onOpenBooking }) {
                 </Link>
               );
             })}
+
+            {/* Sparator Garis Vertikal */}
+            <div className="h-6 w-[1.5px] bg-slate-300 mx-2 self-center rounded-full" aria-hidden="true" />
+
+            {/* Dera AI Navigation Item (Sebelah Kanan Menu Kegiatan) */}
+            <button
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('toggle-dera-ai'));
+                }
+              }}
+              className="group flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/70 hover:from-blue-100/90 hover:to-indigo-100 border border-blue-200 hover:border-blue-300 shadow-2xs hover:shadow-sm transition-all duration-200 active:scale-95"
+              title="Buka Dera AI — Asisten Kesehatan Keluarga"
+              aria-label="Buka Dera AI"
+            >
+              <DeraSlimeAvatar size="sm" showBadge={false} />
+              <div className="flex flex-col text-left leading-none">
+                <span className="text-xs font-black tracking-tight text-navy-950 flex items-center gap-1">
+                  Dera AI
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </span>
+                <span className="text-[9.5px] font-semibold text-blue-700 tracking-tight">
+                  Tanya AI
+                </span>
+              </div>
+            </button>
           </nav>
 
           {/* Mobile Hamburger Menu Toggle on the Right */}
@@ -132,6 +159,37 @@ export default function Navbar({ onOpenBooking }) {
                 </Link>
               );
             })}
+
+            {/* Sparator Garis Mobile */}
+            <div className="pt-2 border-t border-slate-200">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-dera-ai'));
+                  }
+                }}
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 text-left transition-all active:scale-98"
+              >
+                <div className="flex items-center gap-3">
+                  <DeraSlimeAvatar size="sm" showBadge={false} />
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-sm text-navy-950">Dera AI</span>
+                      <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded-full">
+                        Kesehatan Keluarga
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Tanya jadwal & layanan 6 cabang
+                    </p>
+                  </div>
+                </div>
+                <span className="text-xs font-bold text-blue-700 bg-white px-2.5 py-1 rounded-lg border border-blue-200 shadow-2xs">
+                  Buka
+                </span>
+              </button>
+            </div>
           </div>
 
           <div className="pt-2 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
