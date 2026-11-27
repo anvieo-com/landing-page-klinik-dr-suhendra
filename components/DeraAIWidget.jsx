@@ -148,18 +148,18 @@ export default function DeraAIWidget() {
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.lang = 'id-ID';
-      utterance.rate = 0.95;
-      utterance.pitch = 0.82; // Frekuensi rendah untuk karakter suara pria tenang & berwibawa
+      utterance.rate = 1.0;
+      utterance.pitch = 1.05; // Nada jernih, ramah, dan bersahabat khas asisten medis wanita Dera
 
       const voices = window.speechSynthesis.getVoices();
       const idVoices = voices.filter(v => v.lang.includes('id') || v.lang.includes('ID') || v.lang.includes('ind') || v.lang.includes('ms'));
-      const maleVoice = idVoices.find(v => {
+      const femaleVoice = idVoices.find(v => {
         const name = (v.name || '').toLowerCase();
-        return name.includes('ardi') || name.includes('male') || name.includes('laki') || name.includes('pria') || name.includes('andika') || name.includes('budi') || name.includes('tri') || name.includes('david');
+        return name.includes('gadis') || name.includes('female') || name.includes('wanita') || name.includes('perempuan') || name.includes('siti') || name.includes('damayanti') || name.includes('indonesia');
       }) || idVoices[0];
 
-      if (maleVoice) {
-        utterance.voice = maleVoice;
+      if (femaleVoice) {
+        utterance.voice = femaleVoice;
       }
 
       utterance.onstart = () => {
@@ -184,7 +184,7 @@ export default function DeraAIWidget() {
     }
   };
 
-  // Handle Play/Stop TTS dengan suara laki-laki Garda AI (id-ID-ArdiNeural)
+  // Handle Play/Stop TTS dengan suara resmi wanita Indonesia Dera AI (id-ID-GadisNeural)
   const handleToggleSpeak = async (text, messageId) => {
     if (playingMessageId === messageId) {
       stopAudio();
@@ -201,7 +201,7 @@ export default function DeraAIWidget() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text,
-          voice: 'id-ID-ArdiNeural', // Suara resmi Garda AI laki-laki
+          voice: 'id-ID-GadisNeural', // Suara wanita resmi penutur asli Bahasa Indonesia
           speed: 1.0,
         }),
       });
