@@ -2,6 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import NavigationLoader from '@/components/NavigationLoader';
+import DeraAIWidget from '@/components/DeraAIWidget';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -160,6 +161,7 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} bg-white text-slate-800 antialiased selection:bg-navy-900 selection:text-white`}>
         <NavigationLoader />
         {children}
+        <DeraAIWidget />
         <Script
           id="structured-data-clinic"
           type="application/ld+json"
