@@ -16,6 +16,7 @@ import {
   Compass
 } from 'lucide-react';
 import { branches } from '@/data/clinicData';
+import { openWhatsAppBooking } from '@/lib/whatsapp';
 import 'leaflet/dist/leaflet.css';
 
 // Haversine distance calculator in kilometers
@@ -570,15 +571,19 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
 
           {/* Sticky Drawer Footer Action Buttons */}
           <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col gap-2 flex-shrink-0">
-            {onOpenBooking && (
-              <button
-                onClick={() => onOpenBooking(selectedBranch)}
-                className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-white bg-navy-900 hover:bg-navy-950 shadow-sm transition-all"
-              >
-                <Calendar className="w-4 h-4 text-amber-400" />
-                <span>Daftar Antrean di Cabang Ini</span>
-              </button>
-            )}
+            <button
+              onClick={() => {
+                if (onOpenBooking) {
+                  onOpenBooking(selectedBranch);
+                } else {
+                  openWhatsAppBooking({ branch: selectedBranch });
+                }
+              }}
+              className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs font-bold text-white bg-navy-900 hover:bg-navy-950 shadow-sm transition-all active:scale-95 cursor-pointer"
+            >
+              <Calendar className="w-4 h-4 text-amber-400" />
+              <span>Daftar Antrean di Cabang Ini via WhatsApp</span>
+            </button>
           </div>
 
         </div>

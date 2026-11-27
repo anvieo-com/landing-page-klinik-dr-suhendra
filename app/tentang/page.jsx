@@ -6,9 +6,9 @@ import Link from 'next/link';
 import HeaderTopBar from '@/components/HeaderTopBar';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import AppointmentModal from '@/components/AppointmentModal';
 import QuickStatsDarkBanner from '@/components/QuickStatsDarkBanner';
 import BranchLocations from '@/components/BranchLocations';
+import { openWhatsAppBooking } from '@/lib/whatsapp';
 import { 
   Building2, 
   Target, 
@@ -26,12 +26,10 @@ import {
 import { clinicInfo, valuePillars } from '@/data/clinicData';
 
 export default function TentangPage() {
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
-
   return (
     <main className="min-h-screen bg-white">
       <HeaderTopBar />
-      <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
+      <Navbar onOpenBooking={() => openWhatsAppBooking()} />
 
       {/* Hero Page Header - Align Center & Background Slate-100 (Grey) Tanpa Gambar */}
       <section className="relative bg-slate-100 border-b border-slate-200/80 overflow-hidden py-20 sm:py-24 lg:py-32 flex items-center">
@@ -226,7 +224,7 @@ export default function TentangPage() {
       <QuickStatsDarkBanner />
 
       {/* 6 Cabang Lokasi */}
-      <BranchLocations onOpenBooking={() => setBookingModalOpen(true)} />
+      <BranchLocations onOpenBooking={(branch) => openWhatsAppBooking({ branch })} />
 
       {/* Call To Action - Background Beda dengan Footer (bg-slate-50 vs Footer bg-navy-950) */}
       <section className="py-16 lg:py-20 bg-slate-50 border-t border-slate-200 text-center">
@@ -239,22 +237,17 @@ export default function TentangPage() {
           </p>
           <div className="pt-2">
             <button
-              onClick={() => setBookingModalOpen(true)}
+              onClick={() => openWhatsAppBooking()}
               className="inline-flex items-center gap-2 px-7 py-3.5 text-sm sm:text-base font-bold text-white bg-navy-900 hover:bg-navy-950 rounded-xl shadow-md transition-all active:scale-95"
             >
               <Calendar className="w-5 h-5 text-white" strokeWidth={2} />
-              <span>Daftar Antrean Online Sekarang</span>
+              <span>Daftar Antrean Online via WhatsApp</span>
             </button>
           </div>
         </div>
       </section>
 
-      <Footer onOpenBooking={() => setBookingModalOpen(true)} />
-
-      <AppointmentModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-      />
+      <Footer onOpenBooking={() => openWhatsAppBooking()} />
     </main>
   );
 }

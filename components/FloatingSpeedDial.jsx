@@ -23,16 +23,18 @@ export default function FloatingSpeedDial({ onOpenBooking }) {
       </a>
 
       {/* Booking Quick Action Button */}
-      <button
-        onClick={onOpenBooking}
+      <a
+        href={`https://wa.me/${clinicInfo.whatsapp}?text=Halo%20Klinik%20dr.%20Suhendra,%20saya%20ingin%20membuat%20janji%20temu/pendaftaran%20online.`}
+        target="_blank"
+        rel="noopener noreferrer"
         className="flex items-center gap-2 bg-navy-900 hover:bg-navy-950 text-white px-4 py-3 rounded-full shadow-navy hover:shadow-xl active:scale-95 transition-all duration-200 border border-navy-800"
-        title="Buat Janji Temu Cepat"
+        title="Buat Janji Temu via WhatsApp"
       >
         <Calendar className="w-5 h-5 text-white" strokeWidth={2} />
         <span className="text-xs font-bold">
           Buat Janji
         </span>
-      </button>
+      </a>
 
     </div>
   );

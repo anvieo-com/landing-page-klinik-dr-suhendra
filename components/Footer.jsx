@@ -122,12 +122,14 @@ export default function Footer({ onOpenBooking }) {
           </p>
 
           <div className="flex items-center gap-4">
-            <button
-              onClick={onOpenBooking}
+            <a
+              href={`https://wa.me/${clinicInfo.whatsapp}?text=Halo%20Klinik%20dr.%20Suhendra,%20saya%20ingin%20mendaftar%20antrean%20online.`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-xs font-bold text-blue-400 hover:text-white transition-colors"
             >
-              Pendaftaran Online
-            </button>
+              Pendaftaran Online via WhatsApp
+            </a>
             <span>•</span>
             <button
               onClick={scrollToTop}

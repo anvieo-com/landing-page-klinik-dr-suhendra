@@ -12,6 +12,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { featuredDoctors } from '@/data/clinicData';
+import { openWhatsAppBooking } from '@/lib/whatsapp';
 
 export default function DoctorsShowcase({ onOpenBookingWithDoctor }) {
   return (
@@ -91,11 +92,17 @@ export default function DoctorsShowcase({ onOpenBookingWithDoctor }) {
               {/* Card Footer CTA */}
               <div className="px-5 pb-5 pt-1">
                 <button
-                  onClick={() => onOpenBookingWithDoctor && onOpenBookingWithDoctor(doc)}
+                  onClick={() => {
+                    if (onOpenBookingWithDoctor) {
+                      onOpenBookingWithDoctor(doc);
+                    } else {
+                      openWhatsAppBooking({ doctor: doc });
+                    }
+                  }}
                   className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 text-xs font-bold text-navy-950 hover:text-white bg-slate-100 hover:bg-navy-900 border border-slate-200 hover:border-navy-900 rounded-xl transition-all duration-200"
                 >
                   <Calendar className="w-4 h-4" strokeWidth={1.75} />
-                  <span>Jadwalkan Konsultasi</span>
+                  <span>Jadwalkan Konsultasi via WhatsApp</span>
                 </button>
               </div>
 

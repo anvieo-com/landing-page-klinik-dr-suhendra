@@ -84,12 +84,14 @@ export default function EmergencyBanner({ onOpenBooking }) {
             </div>
 
             <div className="text-center pt-1">
-              <button
-                onClick={onOpenBooking}
-                className="text-xs font-bold text-blue-600 hover:underline"
+              <a
+                href={`https://wa.me/${clinicInfo.whatsapp}?text=Halo%20Klinik%20dr.%20Suhendra,%20saya%20ingin%20membuat%20janji%20temu/konsultasi.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-blue-600 hover:underline inline-block"
               >
-                Atau Buat Janji Temu Terlebih Dahulu →
-              </button>
+                Atau Buat Janji Temu Terlebih Dahulu via WhatsApp →
+              </a>
             </div>
           </div>
 

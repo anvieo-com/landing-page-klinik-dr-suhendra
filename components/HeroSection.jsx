@@ -64,14 +64,16 @@ export default function HeroSection({ onOpenBooking }) {
 
           {/* CTA Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1">
-            <button
-              onClick={onOpenBooking}
+            <a
+              href="https://wa.me/6282311188250?text=Halo%20Klinik%20dr.%20Suhendra,%20saya%20ingin%20membuat%20janji%20temu/pendaftaran%20online."
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm sm:text-base font-bold text-white bg-navy-900 hover:bg-navy-950 active:scale-95 rounded-xl shadow-navy transition-all duration-200"
             >
               <Calendar className="w-5 h-5 text-white" strokeWidth={2} />
               <span>Buat Janji Temu</span>
               <ArrowRight className="w-4 h-4 text-white/80" strokeWidth={2} />
-            </button>
+            </a>
 
             <a
               href="#layanan"

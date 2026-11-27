@@ -5,8 +5,8 @@ import Image from 'next/image';
 import HeaderTopBar from '@/components/HeaderTopBar';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import AppointmentModal from '@/components/AppointmentModal';
 import ServiceDetailModal from '@/components/ServiceDetailModal';
+import { openWhatsAppBooking } from '@/lib/whatsapp';
 import { 
   Stethoscope, 
   Ambulance, 
@@ -26,8 +26,6 @@ import {
 import { services } from '@/data/clinicData';
 
 export default function LayananPage() {
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
-  const [bookingInitialData, setBookingInitialData] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
 
   const iconMap = {
@@ -196,14 +194,11 @@ export default function LayananPage() {
 
                     <div className="pt-4 flex flex-wrap gap-3">
                       <button
-                        onClick={() => {
-                          setBookingInitialData({ service: srv.title });
-                          setBookingModalOpen(true);
-                        }}
+                        onClick={() => openWhatsAppBooking({ service: srv.title })}
                         className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-navy-900 hover:bg-navy-950 active:scale-95 rounded-xl shadow-sm transition-all"
                       >
                         <Calendar className="w-4 h-4" strokeWidth={2} />
-                        <span>Daftar Layanan Ini</span>
+                        <span>Daftar Layanan Ini via WhatsApp</span>
                       </button>
 
                       <button
@@ -281,31 +276,22 @@ export default function LayananPage() {
           </p>
           <div className="pt-2">
             <button
-              onClick={() => setBookingModalOpen(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-navy-900 hover:bg-navy-950 rounded-xl shadow-md transition-all"
+              onClick={() => openWhatsAppBooking()}
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-navy-900 hover:bg-navy-950 rounded-xl shadow-md transition-all active:scale-95"
             >
               <Calendar className="w-4 h-4 text-white" strokeWidth={2} />
-              <span>Buat Janji Temu Sekarang</span>
+              <span>Buat Janji Temu Sekarang via WhatsApp</span>
             </button>
           </div>
         </div>
       </section>
 
-      <Footer onOpenBooking={() => setBookingModalOpen(true)} />
-
-      <AppointmentModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-        initialData={bookingInitialData}
-      />
+      <Footer onOpenBooking={() => openWhatsAppBooking()} />
 
       <ServiceDetailModal
         service={selectedService}
         onClose={() => setSelectedService(null)}
-        onBookFromService={(s) => {
-          setBookingInitialData({ service: s.title });
-          setBookingModalOpen(true);
-        }}
+        onBookFromService={(s) => openWhatsAppBooking({ service: s.title })}
       />
     </main>
   );

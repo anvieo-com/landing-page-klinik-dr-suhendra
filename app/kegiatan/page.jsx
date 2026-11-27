@@ -6,7 +6,7 @@ import Link from 'next/link';
 import HeaderTopBar from '@/components/HeaderTopBar';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import AppointmentModal from '@/components/AppointmentModal';
+import { openWhatsAppBooking } from '@/lib/whatsapp';
 import { 
   Calendar, 
   Clock, 
@@ -30,7 +30,6 @@ export default function KegiatanPage() {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedActivity, setSelectedActivity] = useState(null);
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
   // Pagination State
@@ -174,7 +173,7 @@ export default function KegiatanPage() {
   return (
     <main className="min-h-screen bg-white">
       <HeaderTopBar />
-      <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
+      <Navbar onOpenBooking={() => openWhatsAppBooking()} />
 
       {/* Hero Page Header - Portal Berita Style - Align Center & Background Slate-100 (Grey) */}
       <section className="bg-slate-100 border-b border-slate-200/80 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
@@ -398,11 +397,11 @@ export default function KegiatanPage() {
               </button>
 
               <button
-                onClick={() => setBookingModalOpen(true)}
+                onClick={() => openWhatsAppBooking()}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-navy-900 hover:bg-navy-950 active:scale-95 transition-all shadow-sm cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
-                <span>Jadwalkan Konsultasi Dokter</span>
+                <span>Jadwalkan Konsultasi Dokter via WhatsApp</span>
               </button>
             </div>
 
@@ -813,12 +812,7 @@ export default function KegiatanPage() {
         </div>
       </section>
 
-      <Footer onOpenBooking={() => setBookingModalOpen(true)} />
-
-      <AppointmentModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-      />
+      <Footer onOpenBooking={() => openWhatsAppBooking()} />
     </main>
   );
 }

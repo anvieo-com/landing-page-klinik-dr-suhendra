@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DoctorScheduleSection from '@/components/DoctorScheduleSection';
 import DoctorsShowcase from '@/components/DoctorsShowcase';
-import AppointmentModal from '@/components/AppointmentModal';
+import { openWhatsAppBooking } from '@/lib/whatsapp';
 import { 
   Calendar, 
   Clock, 
@@ -20,16 +20,12 @@ import {
 import { clinicInfo } from '@/data/clinicData';
 
 export default function JadwalPage() {
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
-  const [bookingInitialData, setBookingInitialData] = useState(null);
-
   const handleSelectDoctor = (doctor, branch) => {
-    setBookingInitialData({
+    openWhatsAppBooking({
       doctor: doctor.name,
       service: doctor.poli,
       branch: branch ? branch.name : undefined,
     });
-    setBookingModalOpen(true);
   };
 
   const scheduleGuidelines = [
@@ -54,7 +50,7 @@ export default function JadwalPage() {
   return (
     <main className="min-h-screen bg-white">
       <HeaderTopBar />
-      <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
+      <Navbar onOpenBooking={() => openWhatsAppBooking()} />
 
       {/* Hero Page Header - Align Center & Background Slate-100 (Grey) */}
       <section className="bg-slate-100 border-b border-slate-200/80 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
@@ -143,13 +139,7 @@ export default function JadwalPage() {
         </div>
       </section>
 
-      <Footer onOpenBooking={() => setBookingModalOpen(true)} />
-
-      <AppointmentModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-        initialData={bookingInitialData}
-      />
+      <Footer onOpenBooking={() => openWhatsAppBooking()} />
     </main>
   );
 }

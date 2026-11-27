@@ -15,35 +15,30 @@ import HealthArticlesSection from '@/components/HealthArticlesSection';
 import EmergencyBanner from '@/components/EmergencyBanner';
 import BranchMarquee from '@/components/BranchMarquee';
 import Footer from '@/components/Footer';
-import AppointmentModal from '@/components/AppointmentModal';
 import ServiceDetailModal from '@/components/ServiceDetailModal';
 import ArticleReaderModal from '@/components/ArticleReaderModal';
+import { openWhatsAppBooking } from '@/lib/whatsapp';
 
 export default function HomePage() {
-  const [bookingModalOpen, setBookingModalOpen] = useState(false);
-  const [bookingInitialData, setBookingInitialData] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedArticle, setSelectedArticle] = useState(null);
 
   const handleOpenBooking = (initialData = null) => {
-    setBookingInitialData(initialData);
-    setBookingModalOpen(true);
+    openWhatsAppBooking(initialData);
   };
 
   const handleSelectDoctor = (doctor, branch) => {
-    setBookingInitialData({
+    openWhatsAppBooking({
       doctor: doctor.name,
       service: doctor.poli,
       branch: branch ? branch.name : undefined,
     });
-    setBookingModalOpen(true);
   };
 
   const handleBookFromService = (service) => {
-    setBookingInitialData({
+    openWhatsAppBooking({
       service: service.title,
     });
-    setBookingModalOpen(true);
   };
 
   return (
@@ -89,13 +84,6 @@ export default function HomePage() {
 
       {/* 15. Comprehensive Footer */}
       <Footer onOpenBooking={() => handleOpenBooking()} />
-
-      {/* 16. Modals */}
-      <AppointmentModal
-        isOpen={bookingModalOpen}
-        onClose={() => setBookingModalOpen(false)}
-        initialData={bookingInitialData}
-      />
 
       <ServiceDetailModal
         service={selectedService}
