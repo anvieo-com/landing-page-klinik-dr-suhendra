@@ -34,26 +34,54 @@ export default function TentangPage() {
       <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
 
       {/* Hero Page Header */}
-      <section className="bg-white border-b border-slate-100 py-14 lg:py-20 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            {/* Header Model Garis di Kiri (Tanpa Badge) */}
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
-              <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy-900">
-                PROFIL & KOMITMEN KAMI
-              </span>
+      <section className="relative bg-white border-b border-slate-100 overflow-hidden py-14 lg:py-20 flex items-center min-h-[440px] lg:min-h-[500px]">
+        {/* 1. Background Image Layer on Left - /assets/gambar4.png */}
+        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[50%] xl:w-[48%] h-[320px] sm:h-[400px] lg:h-full overflow-hidden z-0 pointer-events-none">
+          <div className="relative w-full h-full">
+            <Image
+              src="/assets/gambar4.png"
+              alt="Keluarga Besar & Tim Medis Klinik dr. Suhendra"
+              fill
+              className="object-cover object-center select-none"
+              priority
+            />
+          </div>
+
+          {/* Shading Atas: Tipis untuk menyamarkan garis atas */}
+          <div className="absolute inset-x-0 top-0 h-10 sm:h-14 lg:h-16 bg-gradient-to-b from-white via-white/80 to-transparent z-[1]" />
+
+          {/* Shading Bawah: Tipis untuk menyamarkan garis bawah */}
+          <div className="absolute inset-x-0 bottom-0 h-10 sm:h-14 lg:h-16 bg-gradient-to-t from-white via-white/80 to-transparent z-[1]" />
+
+          {/* Shading Kanan: Tipis untuk menyamarkan garis kanan membaur ke teks */}
+          <div className="absolute inset-y-0 right-0 w-16 sm:w-24 lg:w-32 bg-gradient-to-r from-transparent via-white/80 to-white z-[1]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+            {/* Kolom Kiri: Spacer untuk memberikan ruang pandang visual bagi foto di sebelah kiri */}
+            <div className="h-[280px] sm:h-[360px] lg:h-auto lg:min-h-[440px] lg:col-span-6 pointer-events-none" />
+
+            {/* Kolom Kanan: Teks Judul & Keterangan */}
+            <div className="lg:col-span-6 space-y-5 text-center lg:text-left pt-2 lg:pt-0">
+              {/* Header Model Garis di Kiri (Tanpa Badge) */}
+              <div className="flex items-center justify-center lg:justify-start gap-3">
+                <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
+                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy-900">
+                  PROFIL & KOMITMEN KAMI
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy-950 tracking-tight leading-tight">
+                Dedikasi Sepenuh Hati untuk{' '}
+                <span className="coretan-oranye text-navy-950">
+                  Kesehatan Anda
+                </span>{' '}
+                & Keluarga
+              </h1>
+              <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-normal">
+                Klinik dr. Suhendra lahir dari kepedulian mendalam untuk menghadirkan akses layanan kesehatan primer yang bermutu, terjangkau, dan humanis di wilayah Bogor dan sekitarnya.
+              </p>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy-950 tracking-tight leading-tight">
-              Dedikasi Sepenuh Hati untuk{' '}
-              <span className="coretan-oranye text-navy-950">
-                Kesehatan Anda
-              </span>{' '}
-              & Keluarga
-            </h1>
-            <p className="text-slate-600 text-base sm:text-lg mt-4 leading-relaxed font-normal">
-              Klinik dr. Suhendra lahir dari kepedulian mendalam untuk menghadirkan akses layanan kesehatan primer yang bermutu, terjangkau, dan humanis di wilayah Bogor dan sekitarnya.
-            </p>
           </div>
         </div>
       </section>
