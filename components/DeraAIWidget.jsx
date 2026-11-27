@@ -285,7 +285,7 @@ export default function DeraAIWidget() {
     setAudioLoadingId(null);
   };
 
-  // Browser Speech Synthesis Fallback (id-ID voice)
+  // Browser Speech Synthesis Fallback (Suara Laki-laki Bahasa Indonesia)
   const playBrowserSpeech = (text, messageId) => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       setPlayingMessageId(null);
@@ -296,7 +296,7 @@ export default function DeraAIWidget() {
     try {
       window.speechSynthesis.cancel();
 
-      // Bersihkan teks dari markdown & simbol
+      // Bersihkan teks dari markdown, asterik, dan simbol
       const cleanText = text
         .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '')
         .replace(/[*_#`~-]/g, ' ')
@@ -305,11 +305,21 @@ export default function DeraAIWidget() {
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.lang = 'id-ID';
-      utterance.rate = 1.05;
+      utterance.rate = 1.0;
+      // Set pitch 0.84 agar formant suara berada pada frekuensi laki-laki (baritone/tenor) yang ramah & berwibawa
+      utterance.pitch = 0.84;
 
       const voices = window.speechSynthesis.getVoices();
-      const idVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ID'));
-      if (idVoice) utterance.voice = idVoice;
+      // Cari suara laki-laki bahasa Indonesia (misal: Ardi, Andika, Male)
+      const idVoices = voices.filter(v => v.lang.includes('id') || v.lang.includes('ID') || v.lang.includes('ind'));
+      const maleIdVoice = idVoices.find(v => {
+        const name = (v.name || '').toLowerCase();
+        return name.includes('ardi') || name.includes('male') || name.includes('laki') || name.includes('pria') || name.includes('andika') || name.includes('budi') || name.includes('tri');
+      }) || idVoices[0];
+
+      if (maleIdVoice) {
+        utterance.voice = maleIdVoice;
+      }
 
       utterance.onstart = () => {
         setAudioLoadingId(null);
@@ -333,7 +343,7 @@ export default function DeraAIWidget() {
     }
   };
 
-  // Handle Play/Stop TTS
+  // Handle Play/Stop TTS dengan suara laki-laki Garda AI (id-ID-ArdiNeural)
   const handleToggleSpeak = async (text, messageId) => {
     if (playingMessageId === messageId) {
       stopAudio();
@@ -344,13 +354,14 @@ export default function DeraAIWidget() {
     setAudioLoadingId(messageId);
 
     try {
-      // Panggil server-side route handler /api/dera-tts
+      // Panggil server-side route handler /api/dera-tts dengan model suara pria Ardi
       const response = await fetch('/api/dera-tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text,
-          speed: 1.05,
+          voice: 'id-ID-ArdiNeural', // Suara resmi Garda AI laki-laki
+          speed: 1.0,
         }),
       });
 
@@ -655,7 +666,7 @@ export default function DeraAIWidget() {
                   <span className="w-1 bg-[#1e3a8a] rounded-full animate-bounce h-3.5" style={{ animationDelay: '150ms' }} />
                   <span className="w-1 bg-[#1e3a8a] rounded-full animate-bounce h-2.5" style={{ animationDelay: '300ms' }} />
                 </span>
-                <span className="font-medium text-[11px]">Dera AI sedang membaca suara...</span>
+                <span className="font-medium text-[11px]">Dera AI sedang berbicara (Suara Laki-laki Garda AI)...</span>
               </div>
               <button
                 onClick={stopAudio}

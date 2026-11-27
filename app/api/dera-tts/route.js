@@ -39,9 +39,9 @@ export async function POST(req) {
     const payload = {
       model: 'tts-1',
       input: speechInput,
-      voice: voice || 'id-ID-ArdiNeural', // Suara Garda AI: Ramah, formal & alami bahasa Indonesia
+      voice: voice || 'id-ID-ArdiNeural', // Suara resmi Garda AI laki-laki (id-ID-ArdiNeural)
       response_format: 'mp3',
-      speed: Number(speed) || 1.05,
+      speed: Number(speed) || 1.0,
     };
 
     const controller = new AbortController();
