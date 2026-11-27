@@ -36,13 +36,15 @@ export default function DeraAIWidget() {
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [playingMessageId, setPlayingMessageId] = useState(null);
   const [audioLoadingId, setAudioLoadingId] = useState(null);
   const [sessionId, setSessionId] = useState('');
 
   const chatEndRef = useRef(null);
   const audioRef = useRef(null);
+  const audioAbortControllerRef = useRef(null);
+  const currentAudioIdRef = useRef(null);
   const inputRef = useRef(null);
 
   // Inisialisasi session & event listener custom event dari Navbar
@@ -108,27 +110,40 @@ export default function DeraAIWidget() {
   }, []);
 
   const stopAudio = () => {
+    // 1. Batalkan request fetch TTS yang sedang berjalan
+    if (audioAbortControllerRef.current) {
+      try {
+        audioAbortControllerRef.current.abort();
+      } catch (e) {}
+      audioAbortControllerRef.current = null;
+    }
+
+    currentAudioIdRef.current = null;
+
+    // 2. Hentikan pemutaran elemen Audio HTML5 dan bersihkan event listener
     if (audioRef.current) {
       try {
+        audioRef.current.oncanplaythrough = null;
+        audioRef.current.onended = null;
+        audioRef.current.onerror = null;
         audioRef.current.pause();
         audioRef.current.src = '';
-      } catch (e) {
-        // ignore
-      }
+      } catch (e) {}
       audioRef.current = null;
     }
+
+    // 3. Batalkan pembacaan Web Speech API bawaan browser
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       try {
         window.speechSynthesis.cancel();
-      } catch (e) {
-        // ignore
-      }
+      } catch (e) {}
     }
+
     setPlayingMessageId(null);
     setAudioLoadingId(null);
   };
 
-  // Browser Speech Synthesis Fallback (Suara Laki-laki Bahasa Indonesia)
+  // Browser Speech Synthesis Fallback (Suara Wanita Bahasa Indonesia)
   const playBrowserSpeech = (text, messageId) => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       setPlayingMessageId(null);
@@ -184,15 +199,22 @@ export default function DeraAIWidget() {
     }
   };
 
-  // Handle Play/Stop TTS dengan suara resmi wanita Indonesia Dera AI (id-ID-GadisNeural)
+  // Handle Play/Stop TTS dengan suara resmi wanita Indonesia Dera AI (Anti-Double Audio Protection)
   const handleToggleSpeak = async (text, messageId) => {
-    if (playingMessageId === messageId) {
+    // Jika tombol pesan yang sama diklik saat sedang berputar atau sedang loading -> STOP
+    if (playingMessageId === messageId || audioLoadingId === messageId) {
       stopAudio();
       return;
     }
 
+    // Pastikan seluruh audio sebelumnya mati total
     stopAudio();
+
     setAudioLoadingId(messageId);
+    currentAudioIdRef.current = messageId;
+
+    const controller = new AbortController();
+    audioAbortControllerRef.current = controller;
 
     try {
       // Panggil server-side route handler /api/dera-tts
@@ -204,38 +226,71 @@ export default function DeraAIWidget() {
           voice: 'id-ID-GadisNeural', // Suara wanita resmi penutur asli Bahasa Indonesia
           speed: 1.0,
         }),
+        signal: controller.signal,
       });
+
+      // Cek apakah request telah dibatalkan di tengah jalan oleh klik lain
+      if (controller.signal.aborted || currentAudioIdRef.current !== messageId) {
+        return;
+      }
 
       const contentType = response.headers.get('content-type') || '';
 
       if (response.ok && contentType.includes('audio')) {
         const blob = await response.blob();
+        if (controller.signal.aborted || currentAudioIdRef.current !== messageId) {
+          return;
+        }
+
         const audioUrl = URL.createObjectURL(blob);
         const audio = new Audio(audioUrl);
         audioRef.current = audio;
 
-        audio.oncanplaythrough = () => {
+        let hasStarted = false;
+        const startPlayback = () => {
+          if (hasStarted || controller.signal.aborted || currentAudioIdRef.current !== messageId) return;
+          hasStarted = true;
           setAudioLoadingId(null);
           setPlayingMessageId(messageId);
-          audio.play().catch(() => {
-            playBrowserSpeech(text, messageId);
+          audio.play().catch((err) => {
+            console.warn('Audio play prevented or interrupted:', err);
+            stopAudio();
           });
         };
 
+        audio.oncanplaythrough = () => {
+          audio.oncanplaythrough = null; // Lepas listener agar tidak terpanggil ganda
+          startPlayback();
+        };
+
         audio.onended = () => {
-          setPlayingMessageId(null);
           URL.revokeObjectURL(audioUrl);
+          stopAudio();
         };
 
         audio.onerror = () => {
           URL.revokeObjectURL(audioUrl);
-          playBrowserSpeech(text, messageId);
+          if (currentAudioIdRef.current === messageId) {
+            stopAudio();
+            playBrowserSpeech(text, messageId);
+          }
         };
+
+        // Fallback jika event oncanplaythrough lambat ditrigger oleh browser
+        setTimeout(() => {
+          if (!hasStarted && currentAudioIdRef.current === messageId) {
+            startPlayback();
+          }
+        }, 1000);
+
       } else {
+        stopAudio();
         playBrowserSpeech(text, messageId);
       }
     } catch (err) {
+      if (err.name === 'AbortError') return;
       console.warn('TTS proxy error, fallback to browser speech:', err);
+      stopAudio();
       playBrowserSpeech(text, messageId);
     }
   };
