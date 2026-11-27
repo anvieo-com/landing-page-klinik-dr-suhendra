@@ -16,7 +16,6 @@ import {
   Activity,
   HeartPulse
 } from 'lucide-react';
-import DeraSlimeAvatar from '@/components/DeraSlimeAvatar';
 
 const QUICK_PROMPTS = [
   { label: '🏥 6 Cabang & Lokasi', query: 'Di mana saja lokasi 6 cabang Klinik dr. Suhendra dan jam bukanya?' },
@@ -312,8 +311,8 @@ export default function DeraAIWidget() {
     ]);
   };
 
-  // Render teks terformat rapi
-  const renderFormattedText = (text) => {
+  // Render teks terformat rapi (dengan teks terang untuk bubble pesan user)
+  const renderFormattedText = (text, isAi = true) => {
     if (!text) return null;
 
     const lines = text.split('\n');
@@ -321,14 +320,24 @@ export default function DeraAIWidget() {
       const parts = line.split(/(\*\*[^*]+\*\*)/g);
       const parsedLine = parts.map((part, pIdx) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={pIdx} className="font-semibold text-slate-900">{part.slice(2, -2)}</strong>;
+          return (
+            <strong 
+              key={pIdx} 
+              className={isAi ? "font-semibold text-slate-900" : "font-semibold text-white"}
+            >
+              {part.slice(2, -2)}
+            </strong>
+          );
         }
         return part;
       });
 
       if (line.trim().startsWith('- ') || line.trim().startsWith('* ') || line.trim().startsWith('• ')) {
         return (
-          <li key={idx} className="ml-4 list-disc text-slate-700 my-0.5 leading-relaxed">
+          <li 
+            key={idx} 
+            className={`ml-4 list-disc my-0.5 leading-relaxed ${isAi ? 'text-slate-700' : 'text-white'}`}
+          >
             {parsedLine}
           </li>
         );
@@ -339,7 +348,10 @@ export default function DeraAIWidget() {
       }
 
       return (
-        <p key={idx} className="my-1 leading-relaxed text-slate-700">
+        <p 
+          key={idx} 
+          className={`my-1 leading-relaxed ${isAi ? 'text-slate-700' : 'text-white font-normal'}`}
+        >
           {parsedLine}
         </p>
       );
@@ -363,23 +375,18 @@ export default function DeraAIWidget() {
         {/* HEADER CHAT */}
         <div className="bg-gradient-to-r from-slate-900 via-[#1e3a8a] to-slate-900 text-white p-3.5 sm:p-4 flex items-center justify-between border-b border-blue-900 shadow-sm relative">
           
-          {/* Profil Slime Dera AI di Header */}
+          {/* Header Branding Dera AI */}
           <div className="flex items-center gap-2.5">
-            <DeraSlimeAvatar
-              size="md"
-              isSpeaking={!!playingMessageId}
-            />
-
             <div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 <h3 id="dera-ai-title" className="font-bold text-white text-base tracking-tight leading-none">
                   Dera AI
                 </h3>
-                <span className="bg-blue-400/20 text-blue-200 text-[10px] font-medium px-1.5 py-0.5 rounded-full border border-blue-300/30">
+                <span className="bg-blue-400/20 text-blue-200 text-[10px] font-medium px-2 py-0.5 rounded-full border border-blue-300/30">
                   Kesehatan Keluarga
                 </span>
               </div>
-              <p className="text-[11px] text-slate-200 flex items-center gap-1 mt-0.5">
+              <p className="text-[11px] text-slate-200 flex items-center gap-1 mt-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Klinik dr. Suhendra • 6 Cabang
               </p>
@@ -465,23 +472,16 @@ export default function DeraAIWidget() {
                 key={msg.id}
                 className={`flex gap-2.5 ${isAi ? 'justify-start' : 'justify-end'}`}
               >
-                {/* Mini Slime Avatar untuk pesan AI */}
-                {isAi && (
-                  <div className="mt-1 shrink-0">
-                    <DeraSlimeAvatar size="sm" showBadge={false} />
-                  </div>
-                )}
-
                 {/* Bubble Pesan */}
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm relative ${
                     isAi
                       ? 'bg-white text-slate-800 border border-slate-200 rounded-tl-sm'
-                      : 'bg-gradient-to-r from-slate-900 to-[#1e3a8a] text-white rounded-tr-sm shadow-md'
+                      : 'bg-gradient-to-r from-blue-700 to-[#1e3a8a] text-white rounded-tr-sm shadow-md'
                   }`}
                 >
-                  <div className="prose prose-sm max-w-none text-left">
-                    {renderFormattedText(msg.content)}
+                  <div className={`text-left ${isAi ? 'prose prose-sm max-w-none text-slate-700' : 'text-white font-medium leading-relaxed'}`}>
+                    {renderFormattedText(msg.content, isAi)}
                   </div>
 
                   {/* Tombol Audio Speaker untuk Balasan AI */}
@@ -522,7 +522,7 @@ export default function DeraAIWidget() {
 
                   {!isAi && (
                     <div className="text-right mt-1">
-                      <span className="text-[10px] text-slate-300 font-mono">
+                      <span className="text-[10px] text-blue-100 font-mono">
                         {msg.timestamp}
                       </span>
                     </div>
@@ -532,14 +532,11 @@ export default function DeraAIWidget() {
             );
           })}
 
-          {/* Indikator AI Sedang Memproses */}
+          {/* Indikator Sedang Berfikir */}
           {isLoading && (
-            <div className="flex gap-2.5 justify-start">
-              <div className="mt-1 shrink-0">
-                <DeraSlimeAvatar size="sm" showBadge={false} />
-              </div>
-              <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm flex items-center gap-2">
-                <span className="text-xs text-slate-500 font-medium">Dera AI sedang memproses...</span>
+            <div className="flex justify-start">
+              <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-sm px-4 py-2.5 shadow-sm flex items-center gap-2">
+                <span className="text-xs text-slate-600 font-medium">Sedang berfikir...</span>
                 <div className="flex gap-1 items-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce" style={{ animationDelay: '150ms' }} />
