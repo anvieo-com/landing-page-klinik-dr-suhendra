@@ -33,7 +33,7 @@ export default function ClinicHighlightsSection() {
   ];
 
   return (
-    <section className="bg-slate-50/70 border-b border-slate-200/90 py-12 sm:py-16 relative overflow-hidden">
+    <section className="bg-slate-100 border-b border-slate-200/80 py-14 sm:py-18 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Model Garis Pembatas Vertikal (Bukan Kotak/Card) */}

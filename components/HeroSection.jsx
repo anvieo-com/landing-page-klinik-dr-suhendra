@@ -24,7 +24,13 @@ export default function HeroSection({ onOpenBooking }) {
           priority
         />
 
-        {/* Shading Bawah Saja Sedikit: Transisi lembut di dasar section tanpa bayangan di tengah gambar */}
+        {/* Shading Atas: Lembut agar batas atas foto menyatu mulus dengan header */}
+        <div className="absolute inset-x-0 top-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-b from-slate-100 via-slate-100/70 to-transparent z-[1]" />
+
+        {/* Shading Kiri: Melindungi teks agar tetap kontras & tajam */}
+        <div className="absolute inset-y-0 left-0 w-full sm:w-4/5 lg:w-[54%] bg-gradient-to-r from-slate-100 via-slate-100/90 to-transparent z-[1]" />
+
+        {/* Shading Bawah: Transisi lembut di dasar section */}
         <div className="absolute inset-x-0 bottom-0 h-10 sm:h-14 lg:h-16 bg-gradient-to-t from-slate-100 via-slate-100/70 to-transparent z-[1]" />
       </div>
 
