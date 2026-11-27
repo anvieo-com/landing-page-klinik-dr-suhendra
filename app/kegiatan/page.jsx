@@ -112,8 +112,8 @@ export default function KegiatanPage() {
       <HeaderTopBar />
       <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
 
-      {/* Hero Page Header - Portal Berita Style */}
-      <section className="bg-white border-b border-slate-100 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
+      {/* Hero Page Header - Portal Berita Style - Align Center & Background Slate-100 (Grey) */}
+      <section className="bg-slate-100 border-b border-slate-200/80 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             {/* Model Garis Center */}

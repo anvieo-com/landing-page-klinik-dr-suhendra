@@ -72,20 +72,21 @@ export default function LayananPage() {
       <HeaderTopBar />
       <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
 
-      {/* Hero Page Header */}
-      <section className="bg-white border-b border-slate-100 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
+      {/* Hero Page Header - Align Center & Background Slate-100 (Grey) */}
+      <section className="bg-slate-100 border-b border-slate-200/80 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-3 mb-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="flex items-center justify-center gap-3 mb-4">
               <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy-900">
-                Komprehensif & Berkelanjutan
+                KOMPREHENSIF & BERKELANJUTAN
               </span>
+              <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy-950 tracking-tight leading-tight">
               <span className="coretan-oranye text-navy-950">Layanan Medis</span> Lengkap untuk Seluruh Anggota Keluarga
             </h1>
-            <p className="text-slate-600 text-base sm:text-lg mt-4 leading-relaxed font-normal">
+            <p className="text-slate-600 text-base sm:text-lg mt-4 leading-relaxed font-normal max-w-2xl mx-auto">
               Dari layanan preventif pemeriksaan rutin, pertolongan darurat 24 jam di IGD, rawat inap higienis, uji laboratorium cepat, hingga apotek terstandar BPOM.
             </p>
           </div>
