@@ -124,10 +124,69 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
       // Pindahkan tombol zoom in / zoom out ke KIRI BAWAH sesuai permintaan
       L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-      // Add OpenStreetMap Tile Layer
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      // Custom CachedTileLayer to comply with OpenStreetMap Tile Usage Policy:
+      // 1. Client-side tile caching via Web Cache API (window.caches) to minimize OSM server load
+      // 2. Strict attribution link to https://www.openstreetmap.org/copyright
+      // 3. updateWhenIdle to throttle requests and avoid burst spamming OSM servers
+      // 4. MaxZoom 18 restriction according to OSM volunteer capacity guidelines
+      const CachedTileLayer = L.TileLayer.extend({
+        createTile: function (coords, done) {
+          const tile = document.createElement('img');
+
+          L.DomEvent.on(tile, 'load', L.Util.bind(this._tileOnLoad, this, done, tile));
+          L.DomEvent.on(tile, 'error', L.Util.bind(this._tileOnError, this, done, tile));
+
+          if (this.options.crossOrigin || this.options.crossOrigin === '') {
+            tile.crossOrigin = this.options.crossOrigin === true ? '' : this.options.crossOrigin;
+          }
+          tile.referrerPolicy = 'no-referrer-when-downgrade';
+          tile.alt = '';
+
+          const url = this.getTileUrl(coords);
+
+          // Client-side persistent tile caching via Web Cache API
+          if (typeof window !== 'undefined' && 'caches' in window) {
+            caches.open('klinik-dr-suhendra-osm-tiles-v1').then((cache) => {
+              cache.match(url).then((response) => {
+                if (response) {
+                  // Found in client cache: load locally without network request to OSM server
+                  response.blob().then((blob) => {
+                    tile.src = URL.createObjectURL(blob);
+                  }).catch(() => {
+                    tile.src = url;
+                  });
+                } else {
+                  // Cache miss: load tile and asynchronously save to client cache for next views
+                  tile.src = url;
+                  fetch(url, { mode: 'cors' }).then((res) => {
+                    if (res.ok) {
+                      cache.put(url, res);
+                    }
+                  }).catch(() => {});
+                }
+              }).catch(() => {
+                tile.src = url;
+              });
+            }).catch(() => {
+              tile.src = url;
+            });
+          } else {
+            tile.src = url;
+          }
+
+          return tile;
+        }
+      });
+
+      // Add OpenStreetMap Tile Layer with full OSM regulation compliance & client caching
+      new CachedTileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        minZoom: 10,
+        keepBuffer: 6,
+        updateWhenIdle: true,
+        updateWhenZooming: false,
+        crossOrigin: 'anonymous',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
       }).addTo(map);
 
       // User Location Marker: Lingkaran Biru dengan Efek Radar

@@ -33,10 +33,10 @@ export default function TentangPage() {
       <HeaderTopBar />
       <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
 
-      {/* Hero Page Header */}
-      <section className="relative bg-white border-b border-slate-100 overflow-hidden py-14 lg:py-20 flex items-center min-h-[440px] lg:min-h-[500px]">
+      {/* Hero Page Header - Tinggi kembali proporsional & natural seperti semula */}
+      <section className="relative bg-white border-b border-slate-100 overflow-hidden py-10 sm:py-12 lg:py-14 flex items-center">
         {/* 1. Background Image Layer on Left - /assets/gambar4.png */}
-        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[50%] xl:w-[48%] h-[320px] sm:h-[400px] lg:h-full overflow-hidden z-0 pointer-events-none">
+        <div className="absolute top-0 bottom-0 left-0 w-full lg:w-[48%] xl:w-[46%] h-[240px] sm:h-[300px] lg:h-full overflow-hidden z-0 pointer-events-none">
           <div className="relative w-full h-full">
             <Image
               src="/assets/gambar4.png"
@@ -48,22 +48,22 @@ export default function TentangPage() {
           </div>
 
           {/* Shading Atas: Tipis untuk menyamarkan garis atas */}
-          <div className="absolute inset-x-0 top-0 h-10 sm:h-14 lg:h-16 bg-gradient-to-b from-white via-white/80 to-transparent z-[1]" />
+          <div className="absolute inset-x-0 top-0 h-10 sm:h-12 bg-gradient-to-b from-white via-white/80 to-transparent z-[1]" />
 
           {/* Shading Bawah: Tipis untuk menyamarkan garis bawah */}
-          <div className="absolute inset-x-0 bottom-0 h-10 sm:h-14 lg:h-16 bg-gradient-to-t from-white via-white/80 to-transparent z-[1]" />
+          <div className="absolute inset-x-0 bottom-0 h-10 sm:h-12 bg-gradient-to-t from-white via-white/80 to-transparent z-[1]" />
 
           {/* Shading Kanan: Tipis untuk menyamarkan garis kanan membaur ke teks */}
-          <div className="absolute inset-y-0 right-0 w-16 sm:w-24 lg:w-32 bg-gradient-to-r from-transparent via-white/80 to-white z-[1]" />
+          <div className="absolute inset-y-0 right-0 w-16 sm:w-24 lg:w-28 bg-gradient-to-r from-transparent via-white/80 to-white z-[1]" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
             {/* Kolom Kiri: Spacer untuk memberikan ruang pandang visual bagi foto di sebelah kiri */}
-            <div className="h-[280px] sm:h-[360px] lg:h-auto lg:min-h-[440px] lg:col-span-6 pointer-events-none" />
+            <div className="h-[200px] sm:h-[240px] lg:h-auto lg:col-span-5 pointer-events-none" />
 
             {/* Kolom Kanan: Teks Judul & Keterangan */}
-            <div className="lg:col-span-6 space-y-5 text-center lg:text-left pt-2 lg:pt-0">
+            <div className="lg:col-span-7 space-y-4 text-center lg:text-left">
               {/* Header Model Garis di Kiri (Tanpa Badge) */}
               <div className="flex items-center justify-center lg:justify-start gap-3">
                 <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
@@ -71,14 +71,14 @@ export default function TentangPage() {
                   PROFIL & KOMITMEN KAMI
                 </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy-950 tracking-tight leading-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[2.75rem] font-black text-navy-950 tracking-tight leading-snug">
                 Dedikasi Sepenuh Hati untuk{' '}
                 <span className="coretan-oranye text-navy-950">
                   Kesehatan Anda
                 </span>{' '}
                 & Keluarga
               </h1>
-              <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-normal">
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal max-w-2xl">
                 Klinik dr. Suhendra lahir dari kepedulian mendalam untuk menghadirkan akses layanan kesehatan primer yang bermutu, terjangkau, dan humanis di wilayah Bogor dan sekitarnya.
               </p>
             </div>
@@ -86,11 +86,33 @@ export default function TentangPage() {
         </div>
       </section>
 
-      {/* Sejarah & Cerita Perjalanan */}
-      <section className="py-16 lg:py-24 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* Sejarah & Cerita Perjalanan - Gambar melebar sampai batas kanan dengan shading lembut */}
+      <section className="relative py-16 lg:py-24 bg-white border-b border-slate-100 overflow-hidden">
+        {/* Background Image Layer on Right - Menempel ke batas kanan dan memanjang dengan shading */}
+        <div className="absolute top-0 bottom-0 right-0 w-full lg:w-[49%] xl:w-[48%] h-[320px] sm:h-[400px] lg:h-full overflow-hidden z-0 pointer-events-none">
+          <div className="relative w-full h-full">
+            <Image
+              src="/assets/gambar1.jpg"
+              alt="Gedung Pelayanan Utama Klinik dr. Suhendra"
+              fill
+              className="object-cover object-center select-none"
+            />
+          </div>
+
+          {/* Shading Atas: Tebal solid di ujung tepi menyamarkan garis atas */}
+          <div className="absolute inset-x-0 top-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-b from-white from-25% via-white/90 via-55% to-transparent z-[1]" />
+
+          {/* Shading Bawah: Tebal solid di ujung tepi menyamarkan garis bawah */}
+          <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 lg:h-24 bg-gradient-to-t from-white from-25% via-white/90 via-55% to-transparent z-[1]" />
+
+          {/* Shading Kiri: Membaur anggun ke arah kolom teks di sebelah kiri */}
+          <div className="absolute inset-y-0 left-0 w-20 sm:w-28 lg:w-36 bg-gradient-to-r from-white via-white/80 to-transparent z-[1]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
             
+            {/* Kolom Kiri: Keterangan Sejarah Singkat */}
             <div className="lg:col-span-6 space-y-6">
               {/* Header Model Garis di Kiri (Tanpa Badge) */}
               <div className="flex items-center gap-3 mb-2">
@@ -109,7 +131,7 @@ export default function TentangPage() {
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                 Dimulai dari fasilitas klinik pratama sederhana di Bojong Jengkol pada tahun 2016, 
                 Klinik dr. Suhendra terus tumbuh atas dasar kepercayaan dan rekomendasi dari ribuan pasien. 
-                Kini kami telah mengoperasikan <strong>6 cabang aktif</strong> yang tersebar strategis di wilayah Ciampea, 
+                Kini kami telah mengoperasikan <strong className="text-navy-950 font-bold">6 cabang aktif</strong> yang tersebar strategis di wilayah Ciampea, 
                 Tenjolaya, Ciseeng, dan Cibungbulang.
               </p>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -129,25 +151,8 @@ export default function TentangPage() {
               </div>
             </div>
 
-            <div className="lg:col-span-6 relative">
-              <div className="relative h-80 sm:h-96 w-full rounded-3xl overflow-hidden border-2 border-slate-200 shadow-card">
-                <Image
-                  src="/assets/gambar1.jpg"
-                  alt="Gedung Pelayanan Klinik dr. Suhendra"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent flex items-end p-6">
-                  <div className="text-white">
-                    <span className="text-xs font-bold uppercase tracking-wider bg-blue-600 px-2.5 py-1 rounded-md inline-block mb-1">
-                      Fasilitas Utama
-                    </span>
-                    <h4 className="font-black text-lg">Klinik dr. Suhendra Bojong Jengkol</h4>
-                    <p className="text-xs text-slate-200">Pusat layanan rawat jalan, rawat inap terpadu, dan laboratorium 24 jam.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* Kolom Kanan: Spacer untuk memberi ruang pandang bagi foto gedung yang melebar ke kanan */}
+            <div className="h-[280px] sm:h-[360px] lg:h-auto lg:min-h-[440px] lg:col-span-6 pointer-events-none" />
 
           </div>
         </div>
