@@ -24,7 +24,7 @@ export default function ServicesSection({ onSelectService }) {
   };
 
   return (
-    <section id="layanan" className="py-16 lg:py-24 bg-white border-b border-slate-100">
+    <section id="layanan" className="py-16 lg:py-24 bg-slate-100 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Layout 2 Kolom: Kiri Judul & Penjelasan, Kanan Kotak Layanan */}
@@ -56,7 +56,7 @@ export default function ServicesSection({ onSelectService }) {
 
             {/* Status 24 Jam & Info Cabang */}
             <div className="pt-2 flex flex-col sm:flex-row lg:flex-col gap-3">
-              <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700 w-fit">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-slate-200/90 text-xs sm:text-sm font-semibold text-slate-700 w-fit shadow-2xs">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span>Siaga IGD & Poli 24 Jam di Seluruh Cabang</span>
               </div>
