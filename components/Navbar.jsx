@@ -87,29 +87,20 @@ export default function Navbar({ onOpenBooking }) {
             })}
 
             {/* Sparator Garis Vertikal */}
-            <div className="h-6 w-[1.5px] bg-slate-300 mx-2 self-center rounded-full" aria-hidden="true" />
+            <div className="h-6 w-[1.5px] bg-slate-300 mx-2.5 self-center rounded-full" aria-hidden="true" />
 
-            {/* Dera AI Navigation Item (Sebelah Kanan Menu Kegiatan) */}
+            {/* Dera AI (Tanpa kotak, tanpa wording samping, tanpa icon bulat hijau, bulatan lebih besar & gelombang lebih biru) */}
             <button
               onClick={() => {
                 if (typeof window !== 'undefined') {
                   window.dispatchEvent(new CustomEvent('toggle-dera-ai'));
                 }
               }}
-              className="group flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50/70 hover:from-blue-100/90 hover:to-indigo-100 border border-blue-200 hover:border-blue-300 shadow-2xs hover:shadow-sm transition-all duration-200 active:scale-95"
-              title="Buka Dera AI — Asisten Kesehatan Keluarga"
+              className="p-1 rounded-full hover:scale-110 active:scale-95 transition-transform duration-200 focus:outline-none flex items-center justify-center ml-0.5"
+              title="Dera AI — Asisten Kesehatan Keluarga"
               aria-label="Buka Dera AI"
             >
-              <DeraSlimeAvatar size="sm" showBadge={false} />
-              <div className="flex flex-col text-left leading-none">
-                <span className="text-xs font-black tracking-tight text-navy-950 flex items-center gap-1">
-                  Dera AI
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                </span>
-                <span className="text-[9.5px] font-semibold text-blue-700 tracking-tight">
-                  Tanya AI
-                </span>
-              </div>
+              <DeraSlimeAvatar size="sm" />
             </button>
           </nav>
 
