@@ -113,15 +113,16 @@ export default function KegiatanPage() {
       <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
 
       {/* Hero Page Header - Portal Berita Style */}
-      <section className="bg-white border-b border-slate-100 py-12 lg:py-16 relative overflow-hidden">
+      <section className="bg-white border-b border-slate-100 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            {/* Model Garis di Kiri (Tanpa Badge) */}
-            <div className="flex items-center gap-3 mb-4">
+          <div className="text-center max-w-3xl mx-auto">
+            {/* Model Garis Center */}
+            <div className="flex items-center justify-center gap-3 mb-4">
               <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
               <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy-900">
                 PORTAL WARTA & AKSI SOSIAL RESMI
               </span>
+              <span className="w-8 sm:w-10 h-[2.5px] bg-blue-600 rounded-full inline-block"></span>
             </div>
             
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy-950 tracking-tight leading-tight">

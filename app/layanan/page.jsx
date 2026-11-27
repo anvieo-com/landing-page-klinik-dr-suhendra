@@ -73,7 +73,7 @@ export default function LayananPage() {
       <Navbar onOpenBooking={() => setBookingModalOpen(true)} />
 
       {/* Hero Page Header */}
-      <section className="bg-white border-b border-slate-100 py-14 lg:py-20 relative overflow-hidden">
+      <section className="bg-white border-b border-slate-100 py-20 sm:py-24 lg:py-32 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-4">
