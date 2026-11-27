@@ -159,30 +159,37 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
 
       userMarkerRef.current = userMarker;
 
+      // Helper to generate responsive custom DivIcon with auto-width (preventing text overflow)
+      const createBranchIcon = (b, isSelected) => {
+        return L.divIcon({
+          className: '!bg-transparent !border-0 !p-0 !m-0',
+          html: `
+            <div class="inline-flex flex-col items-center cursor-pointer select-none" style="transform: translate(-50%, -100%); width: max-content;">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-xl border-2 ${
+                isSelected 
+                  ? 'bg-amber-500 border-white text-navy-950 ring-4 ring-amber-400/50 scale-105 shadow-amber-500/30' 
+                  : 'bg-navy-950 border-white text-white hover:bg-blue-600 shadow-navy-950/40'
+              } transition-all duration-200 whitespace-nowrap">
+                <span class="w-2 h-2 rounded-full flex-shrink-0 ${isSelected ? 'bg-navy-950' : 'bg-emerald-400 animate-pulse'}"></span>
+                <span class="text-xs font-black tracking-tight whitespace-nowrap leading-none">${b.shortName}</span>
+              </div>
+              <div class="w-2.5 h-2.5 bg-navy-950 rotate-45 -mt-1 border-r-2 border-b-2 border-white flex-shrink-0 ${isSelected ? '!bg-amber-500' : ''}"></div>
+            </div>
+          `,
+          iconSize: [0, 0],
+          iconAnchor: [0, 0]
+        });
+      };
+
       // Create Custom SVG DivIcon for each branch
       branches.forEach((b) => {
         const isSelected = selectedBranch && selectedBranch.id === b.id;
-        
-        const customIcon = L.divIcon({
-          className: 'custom-branch-marker',
-          html: `
-            <div class="relative group cursor-pointer" style="transform: translate(-50%, -100%);">
-              <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full shadow-lg border-2 ${
-                isSelected 
-                  ? 'bg-amber-500 border-white text-navy-950 ring-4 ring-amber-400/50 scale-110' 
-                  : 'bg-navy-950 border-white text-white hover:bg-blue-600'
-              } transition-all duration-200">
-                <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-navy-950' : 'bg-emerald-400 animate-pulse'}"></span>
-                <span class="text-[11px] font-black tracking-wide whitespace-nowrap">${b.shortName}</span>
-              </div>
-              <div class="w-3 h-3 bg-navy-950 rotate-45 mx-auto -mt-1.5 border-r border-b border-white ${isSelected ? '!bg-amber-500' : ''}"></div>
-            </div>
-          `,
-          iconSize: [120, 40],
-          iconAnchor: [60, 40]
-        });
+        const customIcon = createBranchIcon(b, isSelected);
 
-        const marker = L.marker([b.lat, b.lng], { icon: customIcon }).addTo(map);
+        const marker = L.marker([b.lat, b.lng], { 
+          icon: customIcon,
+          zIndexOffset: isSelected ? 1000 : 100
+        }).addTo(map);
 
         marker.on('click', () => {
           setSelectedBranch(b);
@@ -217,6 +224,40 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
       userMarkerRef.current.setLatLng([userLocation.lat, userLocation.lng]);
     }
   }, [userLocation]);
+
+  // Update Branch Marker Icon styles & z-indexes dynamically when selectedBranch changes
+  useEffect(() => {
+    if (!leafletModuleRef.current || !markersRef.current) return;
+    const L = leafletModuleRef.current;
+
+    branches.forEach((b) => {
+      const marker = markersRef.current[b.id];
+      if (marker) {
+        const isSelected = selectedBranch && selectedBranch.id === b.id;
+        const icon = L.divIcon({
+          className: '!bg-transparent !border-0 !p-0 !m-0',
+          html: `
+            <div class="inline-flex flex-col items-center cursor-pointer select-none" style="transform: translate(-50%, -100%); width: max-content;">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-xl border-2 ${
+                isSelected 
+                  ? 'bg-amber-500 border-white text-navy-950 ring-4 ring-amber-400/50 scale-105 shadow-amber-500/30' 
+                  : 'bg-navy-950 border-white text-white hover:bg-blue-600 shadow-navy-950/40'
+              } transition-all duration-200 whitespace-nowrap">
+                <span class="w-2 h-2 rounded-full flex-shrink-0 ${isSelected ? 'bg-navy-950' : 'bg-emerald-400 animate-pulse'}"></span>
+                <span class="text-xs font-black tracking-tight whitespace-nowrap leading-none">${b.shortName}</span>
+              </div>
+              <div class="w-2.5 h-2.5 bg-navy-950 rotate-45 -mt-1 border-r-2 border-b-2 border-white flex-shrink-0 ${isSelected ? '!bg-amber-500' : ''}"></div>
+            </div>
+          `,
+          iconSize: [0, 0],
+          iconAnchor: [0, 0]
+        });
+
+        marker.setIcon(icon);
+        marker.setZIndexOffset(isSelected ? 1000 : 100);
+      }
+    });
+  }, [selectedBranch]);
 
   // Update Route Polyline whenever selectedBranch or userLocation or showRoute changes
   useEffect(() => {

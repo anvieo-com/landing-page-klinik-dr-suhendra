@@ -38,6 +38,12 @@ body {
   background: #94a3b8;
 }
 
+/* Leaflet DivIcon reset to prevent border/background overflow */
+.leaflet-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
 /* Utilities */
 .text-balance {
   text-wrap: balance;
