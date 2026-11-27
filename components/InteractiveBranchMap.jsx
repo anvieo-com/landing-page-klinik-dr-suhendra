@@ -34,6 +34,14 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
     import('leaflet').then((L) => {
       if (!isMounted || !mapContainerRef.current) return;
 
+      // Ensure Leaflet uses local assets without querying external CDNs
+      delete L.Icon.Default.prototype._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: '/assets/leaflet/marker-icon-2x.png',
+        iconUrl: '/assets/leaflet/marker-icon.png',
+        shadowUrl: '/assets/leaflet/marker-shadow.png',
+      });
+
       // Avoid double initialization
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
