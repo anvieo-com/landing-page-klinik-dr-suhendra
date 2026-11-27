@@ -313,7 +313,7 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
   }, [userLocation, selectedBranch]);
 
   return (
-    <div className="relative w-full h-[620px] sm:h-[680px] lg:h-[720px] overflow-hidden bg-slate-100">
+    <div className="relative w-full h-[560px] sm:h-[610px] lg:h-[650px] overflow-hidden bg-slate-100">
       
       {/* 1. Leaflet OSM Map Canvas (Full-width 100% fit kiri kanan) */}
       <div 
@@ -452,34 +452,6 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
 
           {/* Scrollable Content Body */}
           <div className="flex-1 p-5 overflow-y-auto space-y-4 text-left">
-            
-            {/* Rute & Estimasi Jarak dari Lokasi Saya */}
-            {currentBranchDistance !== null && (
-              <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200/80 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
-                    <Route className="w-4 h-4 text-amber-300" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase font-bold text-blue-600 tracking-wider block">
-                      Estimasi Rute dari Posisi Anda
-                    </span>
-                    <span className="text-xs font-black text-navy-950">
-                      Jarak: {currentBranchDistance} km
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleFitRouteBounds}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1"
-                >
-                  <Compass className="w-3.5 h-3.5" />
-                  <span>Lihat Rute</span>
-                </button>
-              </div>
-            )}
-
             {/* Description */}
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {selectedBranch.desc}
