@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-white: #ffffff;
+  --color-navy-base: #0f2744;
+  --color-navy-deep: #0a192f;
+  --color-navy-light: #1e3a8a;
+  --color-slate-bg: #f8fafc;
+  --color-slate-border: #e2e8f0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ffffff;
+  color: #1e293b;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Animations */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s ease-in-out infinite;
+}
+
+/* Subtle cross pattern background for banners */
+.bg-medical-pattern {
+  background-color: #0f2744;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Efek coretan stabilo/marker oranye di bawah teks (Viral Style) */
+.coretan-oranye {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.coretan-oranye::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 4px; /* Mengatur posisi naik-turun garis */
+  height: 16px; /* Ketebalan coretan mobile */
+  background: linear-gradient(90deg, #FF5F1F, #FF8C00); /* Gradasi oranye cerah */
+  z-index: -1; /* Supaya garis berada di belakang huruf */
+  border-radius: 6px;
+  transform: rotate(-1.5deg); /* Sedikit miring biar kesannya natural */
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .coretan-oranye::after {
+    left: -6px;
+    right: -6px;
+    bottom: 5px;
+    height: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .coretan-oranye::after {
+    left: -8px;
+    right: -8px;
+    bottom: 6px;
+    height: 24px;
+  }
+}
+
+/* Efek interaktif pas kursor diarahkan ke teks */
+.coretan-oranye:hover::after {
+  height: 34px;
+  transform: rotate(0deg);
+}
+
+/* Marquee infinite scroll animation */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeScrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marqueeScrollRight 28s linear infinite;
+}
+
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-articles {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 45s linear infinite;
+}
+
+.animate-marquee-articles:hover {
+  animation-play-state: paused;
+}
