@@ -34,8 +34,8 @@ export default function BranchLocations({ onOpenBooking }) {
         </p>
       </div>
 
-      {/* Full-width fit kiri kanan OpenStreetMap Section */}
-      <div className="w-full relative border-y border-slate-200 shadow-inner">
+      {/* Full-width fit kiri kanan OpenStreetMap Section with isolated stacking context */}
+      <div className="w-full relative isolate z-0 border-y border-slate-200 shadow-inner">
         <InteractiveBranchMap onOpenBooking={onOpenBooking} />
       </div>
     </section>

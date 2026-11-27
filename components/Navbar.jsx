@@ -29,7 +29,7 @@ export default function Navbar({ onOpenBooking }) {
   ];
 
   return (
-    <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+    <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
       isScrolled 
         ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200' 
         : 'bg-white border-b-0'

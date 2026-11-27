@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
-import { 
-  MapPin, 
-  Phone, 
-  Clock, 
-  Navigation, 
-  X, 
-  Calendar, 
-  Stethoscope, 
+import {
+  MapPin,
+  Phone,
+  Clock,
+  Navigation,
+  X,
+  Calendar,
+  Stethoscope,
   ChevronRight,
   Crosshair,
   Route,
@@ -26,19 +26,19 @@ function calculateDistanceKm(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return parseFloat((R * c).toFixed(1));
 }
 
 export default function InteractiveBranchMap({ onOpenBooking }) {
   // User coordinates: default around Bogor Dramaga/City Center, updated by Geolocation
-  const [userLocation, setUserLocation] = useState({ 
-    lat: -6.595, 
-    lng: 106.745, 
-    isDetected: false 
+  const [userLocation, setUserLocation] = useState({
+    lat: -6.595,
+    lng: 106.745,
+    isDetected: false
   });
   const [selectedBranch, setSelectedBranch] = useState(branches[0]); // Default Bojong Jengkol
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
@@ -146,13 +146,13 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
         iconAnchor: [22, 22]
       });
 
-      const userMarker = L.marker([userLocation.lat, userLocation.lng], { 
+      const userMarker = L.marker([userLocation.lat, userLocation.lng], {
         icon: userRadarIcon,
-        zIndexOffset: 1000 
+        zIndexOffset: 1000
       }).addTo(map);
 
-      userMarker.bindTooltip('<div class="font-bold text-xs text-navy-950">📍 Lokasi Anda</div>', { 
-        permanent: false, 
+      userMarker.bindTooltip('<div class="font-bold text-xs text-navy-950">📍 Lokasi Anda</div>', {
+        permanent: false,
         direction: 'top',
         className: 'rounded-lg shadow-md border border-slate-200'
       });
@@ -165,11 +165,10 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
           className: '!bg-transparent !border-0 !p-0 !m-0',
           html: `
             <div class="inline-flex flex-col items-center cursor-pointer select-none" style="transform: translate(-50%, -100%); width: max-content;">
-              <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-xl border-2 ${
-                isSelected 
-                  ? 'bg-amber-500 border-white text-navy-950 ring-4 ring-amber-400/50 scale-105 shadow-amber-500/30' 
-                  : 'bg-navy-950 border-white text-white hover:bg-blue-600 shadow-navy-950/40'
-              } transition-all duration-200 whitespace-nowrap">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-xl border-2 ${isSelected
+              ? 'bg-amber-500 border-white text-navy-950 ring-4 ring-amber-400/50 scale-105 shadow-amber-500/30'
+              : 'bg-navy-950 border-white text-white hover:bg-blue-600 shadow-navy-950/40'
+            } transition-all duration-200 whitespace-nowrap">
                 <span class="w-2 h-2 rounded-full flex-shrink-0 ${isSelected ? 'bg-navy-950' : 'bg-emerald-400 animate-pulse'}"></span>
                 <span class="text-xs font-black tracking-tight whitespace-nowrap leading-none">${b.shortName}</span>
               </div>
@@ -186,7 +185,7 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
         const isSelected = selectedBranch && selectedBranch.id === b.id;
         const customIcon = createBranchIcon(b, isSelected);
 
-        const marker = L.marker([b.lat, b.lng], { 
+        const marker = L.marker([b.lat, b.lng], {
           icon: customIcon,
           zIndexOffset: isSelected ? 1000 : 100
         }).addTo(map);
@@ -238,11 +237,10 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
           className: '!bg-transparent !border-0 !p-0 !m-0',
           html: `
             <div class="inline-flex flex-col items-center cursor-pointer select-none" style="transform: translate(-50%, -100%); width: max-content;">
-              <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-xl border-2 ${
-                isSelected 
-                  ? 'bg-amber-500 border-white text-navy-950 ring-4 ring-amber-400/50 scale-105 shadow-amber-500/30' 
-                  : 'bg-navy-950 border-white text-white hover:bg-blue-600 shadow-navy-950/40'
-              } transition-all duration-200 whitespace-nowrap">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full shadow-xl border-2 ${isSelected
+              ? 'bg-amber-500 border-white text-navy-950 ring-4 ring-amber-400/50 scale-105 shadow-amber-500/30'
+              : 'bg-navy-950 border-white text-white hover:bg-blue-600 shadow-navy-950/40'
+            } transition-all duration-200 whitespace-nowrap">
                 <span class="w-2 h-2 rounded-full flex-shrink-0 ${isSelected ? 'bg-navy-950' : 'bg-emerald-400 animate-pulse'}"></span>
                 <span class="text-xs font-black tracking-tight whitespace-nowrap leading-none">${b.shortName}</span>
               </div>
@@ -313,17 +311,17 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
   }, [userLocation, selectedBranch]);
 
   return (
-    <div className="relative w-full h-[560px] sm:h-[610px] lg:h-[650px] overflow-hidden bg-slate-100">
-      
+    <div className="relative w-full h-[560px] sm:h-[610px] lg:h-[650px] overflow-hidden bg-slate-100 isolate z-0">
+
       {/* 1. Leaflet OSM Map Canvas (Full-width 100% fit kiri kanan) */}
-      <div 
-        ref={mapContainerRef} 
-        className="w-full h-full z-0" 
+      <div
+        ref={mapContainerRef}
+        className="w-full h-full z-0"
         style={{ width: '100%', height: '100%' }}
       />
 
       {/* 2. Floating Rute & Lokasi Saya Controller (Top Left) */}
-      <div className="absolute top-4 left-4 z-[400] flex flex-col gap-2 max-w-[280px] sm:max-w-[340px]">
+      <div className="absolute top-4 left-4 z-20 flex flex-col gap-2 max-w-[280px] sm:max-w-[340px]">
         {/* Panel Lokasi Pengguna & Cabang Terdekat */}
         <div className="p-3 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200/90 text-left space-y-2">
           <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
@@ -358,7 +356,7 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
               <p className="text-xs font-bold text-navy-950 truncate">
                 {nearestBranch.name}
               </p>
-              
+
               <div className="flex items-center gap-1.5 pt-1">
                 <button
                   onClick={() => handleSelectBranch(nearestBranch)}
@@ -403,8 +401,8 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
 
       {/* 3. Floating Drawer Slider dari Kanan Mengambang di Atas Peta */}
       {selectedBranch && isDrawerOpen && (
-        <div 
-          className="absolute right-3 sm:right-6 lg:right-8 top-3 sm:top-6 bottom-3 sm:bottom-6 w-[calc(100%-1.5rem)] sm:w-96 lg:w-[420px] bg-white rounded-3xl shadow-2xl z-[500] border border-slate-200 overflow-hidden flex flex-col animate-in slide-in-from-right duration-300"
+        <div
+          className="absolute right-3 sm:right-6 lg:right-8 top-3 sm:top-6 bottom-3 sm:bottom-6 w-[calc(100%-1.5rem)] sm:w-96 lg:w-[420px] bg-white rounded-3xl shadow-2xl z-30 border border-slate-200 overflow-hidden flex flex-col animate-in slide-in-from-right duration-300"
         >
           {/* Header Image with Overlay */}
           <div className="relative h-44 sm:h-52 w-full bg-navy-950 overflow-hidden flex-shrink-0 group">
@@ -531,7 +529,7 @@ export default function InteractiveBranchMap({ onOpenBooking }) {
       {!isDrawerOpen && selectedBranch && (
         <button
           onClick={() => setIsDrawerOpen(true)}
-          className="absolute right-4 bottom-4 z-[400] inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-navy-900 text-white text-xs font-bold shadow-2xl hover:bg-navy-950 transition-all border border-navy-800"
+          className="absolute right-4 bottom-4 z-20 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-navy-900 text-white text-xs font-bold shadow-2xl hover:bg-navy-950 transition-all border border-navy-800"
         >
           <MapPin className="w-4 h-4 text-amber-400" />
           <span>Lihat Info {selectedBranch.shortName}</span>
